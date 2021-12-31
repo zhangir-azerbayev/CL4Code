@@ -3,7 +3,8 @@ import json
 from pathlib import Path 
 
 class MathQAInstance(): 
-    def __init__(text, 
+    def __init__(self, 
+                 text, 
                  code, 
                  dsl_code, 
                  reasoning, 
