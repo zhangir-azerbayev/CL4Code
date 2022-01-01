@@ -54,7 +54,7 @@ model_name = f"EleutherAI/gpt-neo-{param_count}"
 # Load data 
 print("loading data...")
 
-eval_set = read_mathqapython(data_path)[:3]
+eval_set = read_mathqapython(data_path)
 if few_shot == 1: 
     train_set = read_mathqapython('data/mathqapython_train.json')
 
@@ -92,21 +92,19 @@ for instance in tqdm(eval_set):
         ks = triple['ks']
         samples = triple['samples']
         
-        untrunced_bodies = []
         with torch.no_grad(): 
-            for _ in range(samples//batch_size): 
-                out = model.generate(
-                        input_ids=encoded_prompt, 
-                        do_sample=True, 
-                        temperature=temp, 
-                        max_new_tokens = max_length, 
-                        pad_token_id = tokenizer.eos_token_id, 
-                        num_return_sequences=batch_size
-                )
-                generated_ids = [ids[prompt_length:] for ids in out]
-                untrunced_bodies = (untrunced_bodies + 
-                        [tokenizer.decode(sample, skip_special_tokens=True)
-                            for sample in generated_ids])
+            out = model.generate(
+                    input_ids=encoded_prompt, 
+                    do_sample=True, 
+                    temperature=temp, 
+                    max_new_tokens = max_length, 
+                    pad_token_id = tokenizer.eos_token_id, 
+                    num_return_sequences=samples
+            )
+        
+        generated_ids = [ids[prompt_length:] for ids in out]
+        untrunced_bodies = [tokenizer.decode(sample, skip_special_tokens=True)
+                    for sample in generated_ids]
 
 
         re_key = '^answer.*?\n'

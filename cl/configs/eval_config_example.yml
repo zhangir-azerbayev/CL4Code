@@ -1,4 +1,4 @@
-experiment_name: test1
+experiment_name: 125M_baseline_dev
 few_shot: 0 # 0 for fine-tuned, 1 for few-shot
 data_path: data/mathqapython_dev.json
 model_path: results_train/baseline_125M/checkpoint-60050 # Set to 0 if doing few shot
@@ -12,7 +12,7 @@ temp_ks_samples:
       ks: 
         - 1
         - 10 
-      samples: 40
+      samples: 20
     - temp: 0.6
       ks: 
         - 80
