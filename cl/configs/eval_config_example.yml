@@ -1,0 +1,19 @@
+experiment_name: baseline_dev_pass80
+few_shot: 0 # 0 for fine-tuned, 1 for few-shot
+data_path: data/mathqapython_dev.json
+model_path: train_results/baseline/checkpoint-60010 # Set to 0 if doing few shot
+param_count: 125M # 125M, 1.3B, or 2.7B
+device: cuda:7
+batch_size: 20
+max_length: 256
+
+temp_ks_samples:
+    - temp: 0.2
+      ks: 
+        - 1
+        - 10 
+      samples: 10
+    - temp: 0.6
+      ks: 
+        - 80
+      samples: 80
