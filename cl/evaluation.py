@@ -14,9 +14,9 @@ import torch
 from torch.utils.data import DataLoader
 
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer
-from dataloader import read_mathqapython, MathQAPython 
+from data.dataset import read_mathqapython, MathQAPython 
 
-from execute_code import semisafe_evaluate
+from execution import semisafe_evaluate
 
 # pass_k function 
 def pass_k(lst, k): 
@@ -54,7 +54,7 @@ model_name = f"EleutherAI/gpt-neo-{param_count}"
 # Load data 
 print("loading data...")
 
-eval_set = read_mathqapython(data_path)[:10]
+eval_set = read_mathqapython(data_path)[:3]
 if few_shot == 1: 
     train_set = read_mathqapython('data/mathqapython_train.json')
 
@@ -77,7 +77,7 @@ for instance in tqdm(eval_set):
         examples = random.sample(train_set, 3)
         few_shot_prompt = ""
         for example in examples: 
-            few_shot_prompt = (few_shot prompt + example.text + "\n" +
+            few_shot_prompt = (few_shot_prompt + example.text + "\n" +
                     example.code + "\n\n")
         prompt = few_shot_prompt + prompt 
 
@@ -87,33 +87,27 @@ for instance in tqdm(eval_set):
     result = dict()
     result["task_id"] = instance.task_id
     
-    for triple in temp_ks_saples: 
+    for triple in temp_ks_samples: 
         temp = triple['temp']
         ks = triple['ks']
         samples = triple['samples']
         
-        outs = None
+        untrunced_bodies = []
         with torch.no_grad(): 
             for _ in range(samples//batch_size): 
                 out = model.generate(
                         input_ids=encoded_prompt, 
                         do_sample=True, 
                         temperature=temp, 
-                        # is 512 ok for few shot generation?
-                        max_length = min([prompt_length+max_length, 512]), 
+                        max_new_tokens = max_length, 
                         pad_token_id = tokenizer.eos_token_id, 
                         num_return_sequences=batch_size
                 )
-                if outs is not None: 
-                    outs = torch.cat([outs, out], axis=0)
-                else: 
-                    outs = out 
+                generated_ids = [ids[prompt_length:] for ids in out]
+                untrunced_bodies = (untrunced_bodies + 
+                        [tokenizer.decode(sample, skip_special_tokens=True)
+                            for sample in generated_ids])
 
-
-        generated_ids = [ids[prompt_length:] for ids in outs]
-
-        untrunced_bodies = [tokenizer.decode(sample, skip_special_tokens=True)
-                for sample in generated_ids]
 
         re_key = '^answer.*?\n'
         bodies = [completion[:re.search(re_key, completion).span()[1]]
@@ -122,7 +116,7 @@ for instance in tqdm(eval_set):
 
         answers = [semisafe_evaluate(program, 'answer', 1) for program in bodies]
 
-        passed_lst = [(abs((answer - label)/label) < 0.01), 
+        passed_lst = [(abs((answer - label)/label) < 0.01)
                 if isinstance(answer, float) else False for answer in answers]
 
         per_temp_result = dict()
@@ -143,8 +137,6 @@ for instance in tqdm(eval_set):
 
 to_dump = dict()
 
-to_dump["instances"] = results
-
 # compute summary statistics
 
 summary = dict()
@@ -155,15 +147,16 @@ for triple in temp_ks_samples:
     for k in ks: 
         summation = sum([result[f"temp{temp}"][f"pass{k}"] for result in results])
         avg = summation/len(results) 
-        per_temp[f"pass{}"] = avg 
+        per_temp[f"pass{k}"] = avg 
 
     summary[f"temp{temp}"] = per_temp
 
 to_dump["summary"] = summary 
+to_dump["instances"] = results
 
 
-with open(out_dir + "results.json") as f: 
+with open(out_dir + "results.json", "w") as f: 
     json.dump(to_dump, f, indent=4, separators=(',', ': '))
 
-with open(out_dir + "config.yml") as f: 
+with open(out_dir + "config.yml", "w") as f: 
     yaml.dump(cfg, f)

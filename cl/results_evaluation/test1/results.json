@@ -1,0 +1,49 @@
+{
+    "summary": {
+        "temp0.2": {
+            "pass1": 1.0,
+            "pass10": 1.0
+        },
+        "temp0.6": {
+            "pass80": 1.0
+        }
+    },
+    "instances": [
+        {
+            "task_id": 0,
+            "temp0.2": {
+                "pass1": 1.0,
+                "pass10": 1.0,
+                "best_completion": "\nn0 = 4.0\nn1 = 5.0\n\nanswer = n1**min(n0, 5)"
+            },
+            "temp0.6": {
+                "pass80": 1.0,
+                "best_completion": "\nn0 = 4.0\nn1 = 5.0\n\nanswer = n1**min(n0, 5)"
+            }
+        },
+        {
+            "task_id": 1,
+            "temp0.2": {
+                "pass1": 1.0,
+                "pass10": 1.0,
+                "best_completion": "\nn0 = 6.0\nn1 = 210.0\nn2 = 72.0\nn3 = 1.0\nn4 = 1.0\nt0 = n0 * n1\nanswer = n2 / t0"
+            },
+            "temp0.6": {
+                "pass80": 1.0,
+                "best_completion": "\nn0 = 6.0\nn1 = 210.0\nn2 = 72.0\nn3 = 1.0\nn4 = 1.0\nt0 = n0 * n1\nanswer = n2 / t0"
+            }
+        },
+        {
+            "task_id": 2,
+            "temp0.2": {
+                "pass1": 1.0,
+                "pass10": 1.0,
+                "best_completion": "\nn0 = 48.0\nn1 = 12.0\nt0 = n0 / n1\nt1 = 1.0 * 1000.0\nt2 = t1 / t0\nanswer = t2 - n1"
+            },
+            "temp0.6": {
+                "pass80": 1.0,
+                "best_completion": "\nn0 = 48.0\nn1 = 12.0\nt0 = n0 / n1\nt1 = 1.0 * 1000.0\nt2 = t1 / t0\nanswer = t2 - n1"
+            }
+        }
+    ]
+}
