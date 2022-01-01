@@ -4,7 +4,6 @@ data_path: data/mathqapython_dev.json
 model_path: results_train/baseline_125M/checkpoint-60050 # Set to 0 if doing few shot
 param_count: 125M # 125M, 1.3B, or 2.7B
 device: cuda:7
-batch_size: 40
 max_length: 256
 
 temp_ks_samples:

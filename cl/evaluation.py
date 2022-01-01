@@ -42,7 +42,6 @@ data_path = cfg['data_path']
 model_path = cfg['model_path']
 param_count = cfg['param_count']
 device = cfg['device']
-batch_size = cfg['batch_size']
 max_length = cfg['max_length']
 temp_ks_samples = cfg['temp_ks_samples']
 
