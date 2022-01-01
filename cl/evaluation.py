@@ -11,7 +11,7 @@ random.seed(1)
 import numpy as np 
 
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, BatchSampler
 
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer
 from data.dataset import read_mathqapython, MathQAPython 
@@ -58,7 +58,7 @@ eval_set = read_mathqapython(data_path)
 if few_shot == 1: 
     train_set = read_mathqapython('data/mathqapython_train.json')
 
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)[:10]
 tokenizer.pad_token = tokenizer.eos_token 
 
 # Load model 
@@ -69,24 +69,26 @@ else:
     model = GPTNeoForCausalLM.from_pretrained(model_path).to(device)
 
 results = []
-for instance in tqdm(eval_set): 
-    label = instance.answer 
-    prompt = instance.text 
+for batch in tqdm(BatchSampler(eval_set, batch_size, drop_last=False)): 
+    instances = list(batch)
+    texts = [instance.text for instance in instances]
 
     if few_shot==1: 
-        examples = random.sample(train_set, 3)
-        few_shot_prompt = ""
-        for example in examples: 
-            few_shot_prompt = (few_shot_prompt + example.text + "\n" +
-                    example.code + "\n\n")
-        prompt = few_shot_prompt + prompt 
+        for i in instances: 
+            examples = random.sample(train_set, 3)
+            few_shot_prompt = ""
+            for example in examples: 
+                few_shot_prompt = (few_shot_prompt + example.text + "\n" +
+                        example.code + "\n\n")
+            texts[i] = few_shot_prompt + texts[i]
 
-    encoded_prompt = tokenizer.encode(prompt, return_tensors="pt").to(device)
-    prompt_length = torch.numel(encoded_prompt)
+    encoded_dict = tokenizer.encode(texts, return_tensors="pt").to(device)
+    prompt_length = torch.numel(encoded_dict["input_ids"][0])
+ 
+    batch_results = [dict() for _ in range(batch_size)]
+    for n in batch results:
+        batch_results[n]["task_id"] = instances[n].task_id
 
-    result = dict()
-    result["task_id"] = instance.task_id
-    
     for triple in temp_ks_samples: 
         temp = triple['temp']
         ks = triple['ks']
@@ -94,7 +96,7 @@ for instance in tqdm(eval_set):
         
         with torch.no_grad(): 
             out = model.generate(
-                    input_ids=encoded_prompt, 
+                    **encoded_dict
                     do_sample=True, 
                     temperature=temp, 
                     max_new_tokens = max_length, 
@@ -105,33 +107,36 @@ for instance in tqdm(eval_set):
         generated_ids = [ids[prompt_length:] for ids in out]
         untrunced_bodies = [tokenizer.decode(sample, skip_special_tokens=True)
                     for sample in generated_ids]
-
-
+        
+        # Now calculate results by instance
         re_key = '^answer.*?\n'
-        bodies = [completion[:re.search(re_key, completion).span()[1]]
-                if re.search(re_key, completion) else completion 
-                for completion in untrunced_bodies]
+        for n, i in enumerate(range(0, samples*batch_size, samples)):
+            this_instance = untrunced_bodies[i:i+samples]
 
-        answers = [semisafe_evaluate(program, 'answer', 1) for program in bodies]
+            bodies = [completion[:re.search(re_key, completion).span()[1]]
+                    if re.search(re_key, completion) else completion 
+                    for completion in this_instance]
 
-        passed_lst = [(abs((answer - label)/label) < 0.01)
-                if isinstance(answer, float) else False for answer in answers]
+            answers = [semisafe_evaluate(program, 'answer', 1) for program in bodies]
+            label = instances[n].answer
 
-        per_temp_result = dict()
-        for k in ks: 
-            per_temp_result[f"pass{k}"] = pass_k(passed_lst, k)
+            passed_lst = [(abs((answer - label)/label) < 0.01)
+                    if isinstance(answer, float) else False for answer in answers]
 
-        if True in passed_lst: 
-            best_completion = bodies[passed_lst.index(True)]
-        else: 
-            # This is not the best way
-            best_completion = bodies[0]
+            for k in ks: 
+                batch_results[n][f"temp{temp}"][f"pass{k}"] = pass_k(passed_lst, k)
 
-        per_temp_result["best_completion"] = best_completion 
+            if True in passed_lst: 
+                best_completion = bodies[passed_lst.index(True)]
+            else: 
+                # This is not the best way
+                best_completion = bodies[0]
 
-        result[f"temp{temp}"] = per_temp_result
+            batch_results[n][f"temp{temp}"]["best_completion"] = best_completion
 
-    results.append(result)
+
+
+    results = results + batch_results
 
 to_dump = dict()
 
