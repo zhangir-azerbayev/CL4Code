@@ -1,0 +1,17 @@
+data_path: data/mathqapython_dev.json
+device: cuda:7
+experiment_name: 125M_baseline_dev
+few_shot: 0
+max_length: 256
+model_path: results_train/baseline_125M/checkpoint-60050
+param_count: 125M
+temp_ks_samples:
+- ks:
+  - 1
+  - 10
+  samples: 20
+  temp: 0.2
+- ks:
+  - 80
+  samples: 80
+  temp: 0.6
