@@ -1,0 +1,77 @@
+import sys 
+import os
+import yaml 
+
+import torch 
+from torch.optim.lr_scheduler import ExponentialLR
+from torch.utils.tensorboard import SummaryWriter 
+
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+from transformers import TrainingArguments, Trainer 
+from transformers import AdamW
+from transformers.integrations import TensorBoardCallback
+
+from dataloader import read_mathqapython, MathQAPython
+
+config_path = sys.argv[1]
+
+with open(config_path, "r") as f: 
+    cfg = yaml.safe_load(f)
+
+experiment_name = cfg['experiment_name']
+param_count = cfg['param_count']
+os.environ["CUDA_VISIBLE_DEVICES"] = cfg['devices']
+max_length = cfg['max_length']
+epochs = cfg['epochs']
+batch_size = cfg['batch_size']
+optim = cfg['optimizer']
+lr = optim['lr']
+weight_decay = optim['weight_decay']
+scheduler_type = optim['scheduler_type']
+scheduler_kwargs = optim['scheduler_kwargs']
+
+os.mkdir(f"results_train/{experiment_name}/")
+
+print('loading data and configuring tokenizer')
+data = read_mathqapython('data/mathqapython_train.json')
+
+tokenizer = GPT2Tokenizer.from_pretrained(f"EleutherAI/gpt-neo-{param_count}")
+tokenizer.pad_token = tokenizer.eos_token 
+
+train_set = MathQAPython(data, tokenizer, max_length)
+
+print('loading model')
+model = GPTNeoForCausalLM.from_pretrained(f"EleutherAI/gpt-neo-{param_count}")
+
+print('initializing training')
+
+optimizer = AdamW(lr=lr, weight_decay=weight_decay)
+
+if scheduler_type=="exponential": 
+    scheduler = ExponentialLR(optimizer, **scheduler_kwargs)
+
+
+training_args = TrainingArguments(output_dir=f"./results_train/{experiment_name}",
+                                  num_train_epochs=epochs,
+                                  per_device_train_batch_size=batch_size, 
+                                  logging_strategy="epoch",
+                                  save_strategy="epoch",
+                                  warmup_steps = 100, 
+                                  )
+
+def data_collator(data):
+    return {'input_ids': torch.stack([f[1] for f in data]),
+            'attention_mask': torch.stack([f[2] for f in data]), 
+            'labels': torch.stack([f[1] for f in data])
+           }
+
+tb_writer = SummaryWriter(log_dir=f"./results_train/{experiment_name}/tb_log")
+tb_callback = TensorBoardCallback(tb_writer)
+
+with open(f"./results_train/{experiment_name/config.yml", "w") as f: 
+    yaml.dump(cfg, f)
+
+Trainer(model=model, args=training_args, train_dataset=train_set, 
+        data_collator=data_collator, callbacks=[tb_callback], 
+        optimizers = (optimizer, scheduler)).train()
+

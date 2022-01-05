@@ -1,0 +1,12 @@
+experiment_name: 125M_basline_dev_explr
+param_count: 125M
+devices: "0"
+epochs: 50
+max_length: 450 
+batch_size: 16
+optimizer: 
+    lr: 6e-5
+    weight_decay: 0.01
+    scheduler_type: exponential 
+    scheduler_kwargs: 
+        gamma: 0.95
