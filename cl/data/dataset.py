@@ -43,8 +43,8 @@ class MathQAPython(torch.utils.data.Dataset):
         full_text_encode = self.tokenizer(full_text, 
                 max_length=self.max_length, truncation=True, 
                 padding='max_length', return_tensors='pt')
-        ids = solution_encode['input_ids'].squeeze()
-        mask = solution_encode['attention_mask'].squeeze()
+        ids = full_text_encode['input_ids'].squeeze()
+        mask = full_text_encode['attention_mask'].squeeze()
 
         return ids.long(), mask.long(), answer
 
