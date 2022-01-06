@@ -1,7 +1,7 @@
 import math 
 
 class PacingFunction: 
-    def get_fraction(self, iter_num): 
+    def __call__(self, iter_num): 
         pass
 
 class FixedExponential(PacingFunction): 
@@ -14,24 +14,25 @@ class FixedExponential(PacingFunction):
         self.step_length = step_length 
         self.increase = increase 
 
-    def get_fraction(self, iter_num): 
-        return min(1, start_prop * math.pow(increase, math.floor(iter_num / step_length)))
+    def __call__(self, iter_num): 
+        return min(1, self.start_prop * math.pow(self.increase, math.floor(iter_num / self.step_length)))
 
 
-class ThreeLengthVariableExponential(PacingFunction): 
+class ThreeLengthExponential(PacingFunction): 
     def __init__(self, 
                  start_prop, 
                  step_lengths, 
                  increase
                 ): 
         self.start_prop = start_prop 
-        self.step_length = step_length 
+        self.step_lengths = step_lengths
         self.increase = increase 
 
-    def get_fraction(self, iter_num): 
-        if iter_num < step_lengths[0]: 
-            return start_prop
-        elif iter_num < step_lengths[1]: 
-            return min(1, increase * start_prop)
+    def __call__(self, iter_num): 
+        if iter_num < self.step_lengths[0]: 
+            return self.start_prop
+        elif iter_num < self.step_lengths[0] + self.step_lengths[1]: 
+            return min(1, self.increase * self.start_prop)
         else: 
-            return min(1, start_prop * math.pow(increase, math.floor((iter_num - step_lengths[0] - step_lengths[1])/step_lengths[2] + 2)))
+            return min(1, self.start_prop * math.pow(self.increase, math.floor((iter_num - self.step_lengths[0] -
+                self.step_lengths[1])/self.step_lengths[2] + 2)))
