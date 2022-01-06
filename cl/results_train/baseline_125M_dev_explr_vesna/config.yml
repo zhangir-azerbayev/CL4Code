@@ -1,0 +1,12 @@
+batch_size: 32
+devices: '0'
+epochs: 50
+experiment_name: baseline_125M_dev_explr_vesna
+max_length: 450
+optimizer:
+  lr: 6.0e-05
+  scheduler_kwargs:
+    gamma: 0.95
+  scheduler_type: exponential
+  weight_decay: 0.01
+param_count: 125M

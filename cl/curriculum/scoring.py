@@ -1,4 +1,5 @@
 from cl.data.dataset import MathQAInstance 
+from transformers import GPT2Tokenizer
 
 class ScoringFunction: 
     def score(self, instance: MathQAInstance): 
@@ -9,7 +10,7 @@ class CodeLength(ScoringFunction):
     def __init__(self): 
         self.tokenizer = GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B")
 
-    def score(self, instance: MathQAInstance): 
+    def __call__(self, instance: MathQAInstance): 
         return len(self.tokenizer.encode(instance.code))
 
 class SequenceLength(ScoringFunction): 

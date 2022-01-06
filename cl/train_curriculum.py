@@ -6,8 +6,9 @@ import math
 from itertools import product as product 
 
 import torch 
-import torch.nn
+import torch.nn 
 from torch.optim.lr_scheduler import LambdaLR
+from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter 
 
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer
@@ -23,8 +24,8 @@ from cl.curriculum.scoring import CodeLength
 from cl.curriculum.sampler import CurriculumSampler
 
 class CurriculumTrainer(Trainer): 
-    def __init__(sampler, *args): 
-        super().__init__(*args)
+    def __init__(self, sampler, **kwargs): 
+        super().__init__(**kwargs)
         self.sampler = sampler 
 
     def get_train_dataloader(self) -> DataLoader: 
@@ -69,7 +70,7 @@ scoring_function_name = curriculum['scoring_function']
 os.mkdir(f"results_train/{experiment_name}/")
 
 print('loading data and configuring tokenizer')
-data = read_mathqapython('data/mathqapython_train.json')[:50]
+data = read_mathqapython('data/mathqapython_train.json')
 
 tokenizer = GPT2Tokenizer.from_pretrained(f"EleutherAI/gpt-neo-{param_count}")
 tokenizer.pad_token = tokenizer.eos_token 
@@ -81,6 +82,7 @@ if scoring_function_name == "CodeLength":
 else: 
     raise ValueError("invalid scoring function")
 
+steps_per_epoch = math.ceil(len(train_set)/batch_size)
 print('loading model')
 model = GPTNeoForCausalLM.from_pretrained(f"EleutherAI/gpt-neo-{param_count}")
 
@@ -101,13 +103,6 @@ optimizer_grouped_parameters = [
 ]
 
 
-optimizer = AdamW(optimizer_grouped_parameters, lr=lr)
-
-if scheduler_type=="exponential": 
-    gamma = scheduler_kwargs["gamma"]
-    steps_per_epoch = math.ceil(len(train_set)/batch_size)
-    lr_lambda = lambda step: gamma ** (step//steps_per_epoch)
-    scheduler = LambdaLR(optimizer, lr_lambda=lr_lambda)
 
 
 with open(f"./results_train/{experiment_name}/config.yml", "w") as f: 
@@ -117,20 +112,22 @@ with open(f"./results_train/{experiment_name}/config.yml", "w") as f:
 for start_prop, step_1, step_2, step_3, increase in product(start_props, 
         step_lengths, step_lengths, step_lengths, increases): 
     if step_1 <= step_2 and step_2 <= step_3: 
-        run_name = "_".join([start_prop, step_1, step_2, step_3, increase])
+        optimizer = AdamW(optimizer_grouped_parameters, lr=lr)
+
+        if scheduler_type=="exponential": 
+            gamma = scheduler_kwargs["gamma"]
+            steps_per_epoch = math.ceil(len(train_set)/batch_size)
+            lr_lambda = lambda step: gamma ** (step//steps_per_epoch)
+            scheduler = LambdaLR(optimizer, lr_lambda=lr_lambda)
+        else: 
+            raise ValueError("invalid scheduler type")
+
+
+        run_name = "_".join([str(x) for x in [start_prop, step_1, step_2, step_3, increase]])
         print(run_name)
         tb_writer = SummaryWriter(
                 log_dir=f"./results_train/{experiment_name}/tb_log/{run_name}"
                 )
-        tb_writer.add_hparams(
-                {
-                    'start_prop': start_prop
-                    'step_1': step_1
-                    'step_2': step_2
-                    'step_3': step_3
-                    'increase': increase
-                }
-        )
         tb_callback = TensorBoardCallback(tb_writer)
 
         output_dir = f"./results_train/{experiment_name}/{run_name}"
@@ -140,13 +137,14 @@ for start_prop, step_1, step_2, step_3, increase in product(start_props,
 
         training_args = TrainingArguments(
                                           output_dir=output_dir,
-                                          num_train_epochs=epochs,
-                                          logging_strategy="epoch",
-                                          save_strategy="epoch",
+                                          num_train_epochs=1, 
+                                          logging_steps=steps_per_epoch,
+                                          save_steps=steps_per_epoch,
                                           warmup_steps = 100, 
                                           )
 
         CurriculumTrainer(sampler, model=model, args=training_args, 
                 train_dataset=train_set, data_collator=data_collator, 
                 callbacks=[tb_callback], optimizers = (optimizer, scheduler)).train()
+        tb_writer.close()
 

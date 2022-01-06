@@ -1,6 +1,6 @@
 import math 
 import random 
-from torch.utils.data import Sampler 
+from torch.utils.data import Sampler, BatchSampler
 
 
 class _QueueIndexIter: 
@@ -36,11 +36,15 @@ class CurriculumSampler(Sampler):
         self.epochs = epochs
 
     def __iter__(self): 
-        for _ in range(math.ceil(self.num_instances/self.batch_size) * self.epochs)
+        for _ in range(math.ceil(self.num_instances/self.batch_size) * self.epochs):
             max_idx = round(self.num_instances * self.pacer(self.cumulative_iters))
-            batch = random.sample(range(max_idx), self.batch_size)
+            for sample in BatchSampler(range(max_idx), self.batch_size, drop_last=False): 
+                batch = sample 
+                break 
             yield batch 
             self.cumulative_iters += 1 
+    def __len__(self): 
+        return math.ceil(self.num_instances/self.batch_size) * self.epochs
 
 
 

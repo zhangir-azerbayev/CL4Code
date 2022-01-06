@@ -1,4 +1,4 @@
-experiment_name: curriculum_125M_first
+experiment_name: curriculum_hypsearch/increase1.2
 param_count: 125M
 devices: "0"
 epochs: 50
@@ -18,5 +18,5 @@ curriculum:
     step_lengths: 
         - 6005
         - 12010
-    increase: 
-        - 1.5
+    increases: 
+        - 1.2
