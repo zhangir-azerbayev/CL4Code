@@ -28,14 +28,15 @@ class _QueueIndexIter:
 
 
 class CurriculumSampler(Sampler): 
-    def __init__(self, pacer, dataset, batch_size): 
+    def __init__(self, pacer, dataset, batch_size, epochs): 
         self.pacer = pacer
         self.cumulative_iters = 0 
         self.num_instances = len(dataset)
         self.batch_size = batch_size 
+        self.epochs = epochs
 
     def __iter__(self): 
-        while True: 
+        for _ in range(math.ceil(self.num_instances/self.batch_size) * self.epochs)
             max_idx = round(self.num_instances * self.pacer(self.cumulative_iters))
             batch = random.sample(range(max_idx), self.batch_size)
             yield batch 
