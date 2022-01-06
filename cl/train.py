@@ -1,10 +1,11 @@
 import sys 
 import os
 import yaml 
+import math
 
 import torch 
 import torch.nn
-from torch.optim.lr_scheduler import ExponentialLR
+from torch.optim.lr_scheduler import LambdaLR
 from torch.utils.tensorboard import SummaryWriter 
 
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer
@@ -64,7 +65,10 @@ optimizer_grouped_parameters = [
 optimizer = AdamW(optimizer_grouped_parameters, lr=lr)
 
 if scheduler_type=="exponential": 
-    scheduler = ExponentialLR(optimizer, **scheduler_kwargs)
+    gamma = scheduler_kwargs["gamma"]
+    steps_per_epoch = math.ceil(len(train_set)/batch_size)
+    lr_lambda = lambda step: gamma ** (step//steps_per_epoch)
+    scheduler = LambdaLR(optimizer, lr_lambda=lr_lambda)
 
 
 training_args = TrainingArguments(output_dir=f"./results_train/{experiment_name}",
