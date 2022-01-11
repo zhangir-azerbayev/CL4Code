@@ -1,0 +1,13 @@
+data_path: data/mathqapython_dev.json
+device: cuda:7
+experiment_name: curriculum_diditwork
+few_shot: 0
+max_length: 256
+model_path: /home/lily/zaa7/CL4Code/cl/results_train/curriculum_hypsearch/increase2/0.1_6005_6005_6005_2.0/checkpoint-60050
+param_count: 125M
+temp_ks_samples:
+- ks:
+  - 1
+  - 10
+  samples: 20
+  temp: 0.2

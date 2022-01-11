@@ -64,9 +64,10 @@ optimizer_grouped_parameters = [
 
 optimizer = AdamW(optimizer_grouped_parameters, lr=lr)
 
+
+steps_per_epoch = math.ceil(len(train_set)/batch_size)
 if scheduler_type=="exponential": 
     gamma = scheduler_kwargs["gamma"]
-    steps_per_epoch = math.ceil(len(train_set)/batch_size)
     lr_lambda = lambda step: gamma ** (step//steps_per_epoch)
     scheduler = LambdaLR(optimizer, lr_lambda=lr_lambda)
 
@@ -74,8 +75,8 @@ if scheduler_type=="exponential":
 training_args = TrainingArguments(output_dir=f"./results_train/{experiment_name}",
                                   num_train_epochs=epochs,
                                   per_device_train_batch_size=batch_size, 
-                                  logging_strategy="epoch",
-                                  save_strategy="epoch",
+                                  logging_steps=steps_per_epoch*5,
+                                  save_steps=steps_per_epoch*5,
                                   warmup_steps = 100, 
                                   )
 

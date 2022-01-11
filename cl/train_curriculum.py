@@ -139,7 +139,7 @@ for start_prop, step_1, step_2, step_3, increase in product(start_props,
                                           output_dir=output_dir,
                                           num_train_epochs=1, 
                                           logging_steps=steps_per_epoch,
-                                          save_steps=steps_per_epoch,
+                                          save_steps=10*steps_per_epoch,
                                           warmup_steps = 100, 
                                           )
 
