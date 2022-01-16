@@ -1,8 +1,8 @@
-experiment_name: 125M_baseline_dev
+experiment_name: baseline_1B_pass10
 few_shot: 0 # 0 for fine-tuned, 1 for few-shot
 data_path: data/mathqapython_dev.json
-model_path: results_train/baseline_125M/checkpoint-60050 # Set to 0 if doing few shot
-param_count: 125M # 125M, 1.3B, or 2.7B
+model_path: /home/lily/zaa7/CL4Code/cl/results_train/baseline_1B_explr/checkpoint-160100 # Set to 0 if doing few shot
+param_count: 1.3B # 125M, 1.3B, or 2.7B
 device: cuda:7
 max_length: 256
 
@@ -11,8 +11,4 @@ temp_ks_samples:
       ks: 
         - 1
         - 10 
-      samples: 20
-    - temp: 0.6
-      ks: 
-        - 80
-      samples: 80
+      samples: 10

@@ -1,9 +1,9 @@
-experiment_name: baseline_125M_dev_explr_vesna
-param_count: 125M
-devices: "0"
+experiment_name: baseline_1B_explr
+param_count: 1.3B
+devices: "2"
 epochs: 50
 max_length: 450 
-batch_size: 32
+batch_size: 6
 optimizer: 
     lr: 6.0e-5
     weight_decay: 0.01

@@ -1,6 +1,6 @@
 experiment_name: curriculum_hypsearch/increase1.2
 param_count: 125M
-devices: "0"
+devices: "4"
 epochs: 50
 max_length: 450 
 batch_size: 16

@@ -1,0 +1,13 @@
+data_path: data/mathqapython_dev.json
+device: cuda:7
+experiment_name: baseline_1B_pass10
+few_shot: 0
+max_length: 256
+model_path: /home/lily/zaa7/CL4Code/cl/results_train/baseline_1B_explr/checkpoint-160100
+param_count: 1.3B
+temp_ks_samples:
+- ks:
+  - 1
+  - 10
+  samples: 10
+  temp: 0.2
