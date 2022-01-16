@@ -3,6 +3,7 @@ cl/configs/*
 !cl/configs/train_config_example.yml
 !cl/configs/curriculum_config_example.yml
 !cl/configs/eval_config_example.yml
+!cl/configs/ds_config.json
 
 
 # Model weights
