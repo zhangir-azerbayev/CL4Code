@@ -41,3 +41,4 @@ Create graphs of performance vs. scoring function. Question: is the correlation 
 ### Curriculum Learning
 - [On the power of curriculum learning](https://arxiv.org/abs/1904.03626)
 - [Leraning to execute](https://arxiv.org/abs/1410.4615)
+- [Curriculum learning for large language model](https://arxiv.org/abs/2108.06084)
