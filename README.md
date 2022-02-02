@@ -4,6 +4,8 @@ Curriculum learning for math word problems.
 ### Models
 - GPT-Neo 125M and 1.3B code-generation
 - Gpt-Neo 125M and 1.3B generate equation
+- CodeT5 small and base code-generation 
+- CodeT5 small and base generate equation
 - Graph2Tree (good MWP baseline).  
 
 ### Datasets
