@@ -23,3 +23,21 @@ Create graphs of performance vs. scoring function. Question: is the correlation 
 - Baseline (no curriculum)
 - Exponential pacing 
 - Combined strategy 
+
+## Papers 
+### Code generation 
+- [Google paper](https://aclanthology.org/2020.acl-main.362/) 
+- [Codex paper](https://arxiv.org/abs/2107.03374) 
+
+### MWP datasets
+- [Google paper](https://aclanthology.org/2020.acl-main.362/) 
+- [ASDiV](https://arxiv.org/abs/2106.15772)
+- [SVAMP](https://arxiv.org/abs/2103.07191) 
+
+### MWP Baselines
+- [Graph2Tree](https://aclanthology.org/2020.acl-main.362/)
+- [MWPBert](https://arxiv.org/abs/2107.13435)
+
+### Curriculum Learning
+- [On the power of curriculum learning](https://arxiv.org/abs/1904.03626)
+- [Leraning to execute](https://arxiv.org/abs/1410.4615)
