@@ -1,0 +1,25 @@
+{
+    "num solved": 5,
+    "solutions": [
+        {
+            "idx": 0,
+            "solution": "n0 = 3.0\nn1 = 10.0\nn2 = 36.0\nt0 = n2 * 100.0\nt1 = n0 * n1\nt2 = t0 / t1\nt3 = t2 * 100.0\nanswer = t3 / t1"
+        },
+        {
+            "idx": 2,
+            "solution": "n0 = 120.0\nn1 = 50.0\nt0 = n0 / n1\nanswer = t0 * 100.0"
+        },
+        {
+            "idx": 4,
+            "solution": "n0 = 218.0\nn1 = 12.0\nn2 = 16.0\nn3 = 30.0\nt0 = n2 / 100.0\nt1 = n1 / 100.0\nt2 = n0 * t0\nt3 = t0 - t1\nt4 = t2 - n3\nanswer = t4 / t3"
+        },
+        {
+            "idx": 5,
+            "solution": "n0 = 6.0\nn1 = 8.0\nn2 = 3.0\nn3 = 4.0\nt0 = n0 + n3\nt1 = n0 * n1\nt2 = n0 * n2\nt3 = t1 - t2\nanswer = t3 / t0"
+        },
+        {
+            "idx": 7,
+            "solution": "n0 = 4.0\nn1 = 5.0\nn2 = 4.0\nn3 = 5.0\nn4 = 36.0\nt0 = n0 / n1\nt1 = n4 * t0\nt2 = t0 * t0\nt3 = t0 * t1\nt4 = 1.0 - t2\nt5 = t3 / t4\nanswer = t5 / t0"
+        }
+    ]
+}

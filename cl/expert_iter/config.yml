@@ -1,0 +1,8 @@
+experiment_name: 00_seed100
+param_count: 125M
+devices: "0"
+epochs: 3
+max_length: 450 
+batch_size: 16
+num_iters: 20
+weight_decay: 0.01

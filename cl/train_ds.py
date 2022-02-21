@@ -2,6 +2,7 @@ import sys
 import os
 import yaml 
 import math
+import argparse
 
 import torch 
 import torch.nn
@@ -16,15 +17,15 @@ from transformers.trainer_pt_utils import get_parameter_names
 
 from data.dataset import read_mathqapython, MathQAPython
 
-config_path = sys.argv[1]
-ds_config_path = sys.argv[2]
+config_path = 'configs/train_2B.yml'
+ds_config_path = "configs/ds_config.json"
 
 with open(config_path, "r") as f: 
     cfg = yaml.safe_load(f)
 
 experiment_name = cfg['experiment_name']
 param_count = cfg['param_count']
-os.environ["CUDA_VISIBLE_DEVICES"] = cfg['devices']
+#os.environ["CUDA_VISIBLE_DEVICES"] = cfg['devices']
 max_length = cfg['max_length']
 epochs = cfg['epochs']
 batch_size = cfg['batch_size']
@@ -34,7 +35,7 @@ weight_decay = optim['weight_decay']
 scheduler_type = optim['scheduler_type']
 scheduler_kwargs = optim['scheduler_kwargs']
 
-os.mkdir(f"results_train/{experiment_name}/")
+#os.mkdir(f"results_train/{experiment_name}/")
 
 print('loading data and configuring tokenizer')
 data = read_mathqapython('data/mathqapython_train.json')
@@ -79,7 +80,8 @@ training_args = TrainingArguments(output_dir=f"./results_train/{experiment_name}
                                   logging_steps=steps_per_epoch*5,
                                   save_steps=steps_per_epoch*5,
                                   warmup_steps = 100, 
-                                  deepspeed = ds_config_path
+                                  deepspeed = ds_config_path, 
+                                  fp16=True
                                   )
 
 def data_collator(data):

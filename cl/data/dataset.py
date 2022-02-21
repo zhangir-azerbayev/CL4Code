@@ -17,6 +17,9 @@ class MathQAInstance():
         self.answer = answer
         self.task_id = task_id
 
+    def set_code(self, code): 
+        self.code = code 
+
 
 def read_mathqapython(path): 
     path = Path(path)

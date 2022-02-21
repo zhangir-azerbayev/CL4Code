@@ -22,13 +22,15 @@ from data.dataset import read_mathqapython, MathQAPython
 from cl.curriculum.pacing import ThreeLengthExponential
 from cl.curriculum.scoring import CodeLength
 from cl.curriculum.sampler import CurriculumSampler
+from overrides import overrides
 
 class CurriculumTrainer(Trainer): 
     def __init__(self, sampler, **kwargs): 
         super().__init__(**kwargs)
         self.sampler = sampler 
-
-    def get_train_dataloader(self) -> DataLoader: 
+ 
+    @overrides
+    def _get_train_dataloader(self) -> DataLoader: 
         return DataLoader(
                 self.train_dataset, 
                 collate_fn = self.data_collator, 
