@@ -1,0 +1,505 @@
+{
+    "num solved": 100,
+    "solutions": [
+        {
+            "idx": 526,
+            "prompt": "# a man is 28 years older than his son . in two years , his age will be twice the age of his son . the present age of the son is n0 = 28.0",
+            "solution": "n0 = 28.0\nt0 = 2.0 * 2.0\nt1 = 2.0 - 1.0\nt2 = t0 - 2.0\nt3 = n0 - t2\nanswer = t3 / t1"
+        },
+        {
+            "idx": 1555,
+            "prompt": "# the number of the members of a club is more than 50 and less than 80 . when 5 people sit at a table , other people exactly divided to 8 - people groups ( 8 people sit at a table ) or 7 - people groups ( 7 people sit at a table ) . if the members are divided to 9 - people groups , how many people will be left ? n0 = 50.0 n1 = 80.0 n2 = 5.0 n3 = 8.0 n4 = 8.0 n5 = 7.0 n6 = 7.0 n7 = 9.0",
+            "solution": "import scipy\nn0 = 50.0\nn1 = 80.0\nn2 = 5.0\nn3 = 8.0\nn4 = 8.0\nn5 = 7.0\nn6 = 7.0\nn7 = 9.0\nt0 = scipy.lcm(int(n3), int(n5))\nt1 = n2 + t0\nanswer = t1 % n7"
+        },
+        {
+            "idx": 543,
+            "prompt": "# what is the least number which should be added to 5432 so that the sum is exactly divisible by 5 , 6 , 4 , and 3 ? n0 = 5432.0 n1 = 5.0 n2 = 6.0 n3 = 4.0 n4 = 3.0",
+            "solution": "n0 = 5432.0\nn1 = 5.0\nn2 = 6.0\nn3 = 4.0\nn4 = 3.0\nt0 = n1 * 2.0\nt1 = n1 + t0\nt2 = n2 + t1\nt3 = n3 + t2\nanswer = n4 + t3"
+        },
+        {
+            "idx": 34,
+            "prompt": "# if 0.5 % of a = 65 paise , then the value of a is ? n0 = 0.5 n1 = 65.0",
+            "solution": "n0 = 0.5\nn1 = 65.0\n\nanswer = n1 / n0"
+        },
+        {
+            "idx": 41,
+            "prompt": "# if x , y , and z are positive integers , and 4 x = 5 y = 6 z , then the least possible value of x + y + z is n0 = 4.0 n1 = 5.0 n2 = 6.0",
+            "solution": "n0 = 4.0\nn1 = 5.0\nn2 = 6.0\nt0 = n0 * n1\nt1 = n2 * t0\nt2 = t1 / 2.0\nt3 = t2 / n0\nt4 = t2 / n1\nt5 = t2 / n2\nt6 = t3 + t4\nanswer = t6 + t5"
+        },
+        {
+            "idx": 555,
+            "prompt": "# suresh can complete a job in 15 hours . ashutosh alone can complete the same job in 20 hours . suresh works for 9 hours and then the remaining job is completed by ashutosh . how many hours will it take ashutosh to complete the remaining job alone ? n0 = 15.0 n1 = 20.0 n2 = 9.0",
+            "solution": "n0 = 15.0\nn1 = 20.0\nn2 = 9.0\nt0 = n2 / n0\nt1 = 1.0 - t0\nanswer = n1 * t1"
+        },
+        {
+            "idx": 44,
+            "prompt": "# a sum amounts to rs . 4410 in 2 years at the rate of 5 % p . a . if interest was compounded yearly then what was the principal ? n0 = 4410.0 n1 = 2.0 n2 = 5.0",
+            "solution": "n0 = 4410.0\nn1 = 2.0\nn2 = 5.0\nt0 = n2 / 100.0\nt1 = t0 + 1.0\nt2 = t1**min(2.0, 5)\nanswer = n0 / t2"
+        },
+        {
+            "idx": 2092,
+            "prompt": "# if the arithmetic mean of p and q is 10 and the arithmetic mean of q and r is 20 , what is the value of r - p ? n0 = 10.0 n1 = 20.0",
+            "solution": "n0 = 10.0\nn1 = 20.0\nt0 = n1 * 2.0\nt1 = n0 * 2.0\nanswer = t0 - t1"
+        },
+        {
+            "idx": 2102,
+            "prompt": "# a miniature roulette wheel is divided into 10 equal sectors , each bearing a distinct integer from 1 to 10 , inclusive . each time the wheel is spun , a ball randomly determines the winning sector by settling in that sector . if the wheel is spun two times , approximately what is the probability that the product of the two winning sectors \u2019 integers will be even ? n0 = 10.0 n1 = 1.0 n2 = 10.0",
+            "solution": "n0 = 10.0\nn1 = 1.0\nn2 = 10.0\nt0 = n0 / 2.0\nt1 = t0 / n0\nt2 = t1**min(2.0, 5)\nt3 = n1 - t2\nanswer = t3 * 100.0"
+        },
+        {
+            "idx": 2623,
+            "prompt": "# of the 645 speckled trout in a certain fishery that contains only speckled and rainbow trout , the number of males is 45 more than twice the number of females . if the ratio of female speckled trout to male rainbow trout is 4 : 3 and the ratio of male rainbow trout to all trout is 3 : 20 , how many female rainbow trout are there ? n0 = 645.0 n1 = 45.0 n2 = 4.0 n3 = 3.0 n4 = 3.0 n5 = 20.0",
+            "solution": "n0 = 645.0\nn1 = 45.0\nn2 = 4.0\nn3 = 3.0\nn4 = 3.0\nn5 = 20.0\nt0 = n0 - n1\nt1 = t0 / 3.0\nt2 = n3 * t1\nt3 = t2 / n2\nt4 = n5 * t3\nt5 = t4 / n3\nt6 = t5 - n0\nanswer = t6 - t3"
+        },
+        {
+            "idx": 65,
+            "prompt": "# in digging a pond 20 m * 12 m * 5 m the volumes of the soil extracted will be ? n0 = 20.0 n1 = 12.0 n2 = 5.0",
+            "solution": "n0 = 20.0\nn1 = 12.0\nn2 = 5.0\nt0 = n0 * n1\nanswer = n2 * t0"
+        },
+        {
+            "idx": 1091,
+            "prompt": "# if the difference between the length and breadth of a rectangle is 23 m and its perimeter is 186 m , what is its area ? n0 = 23.0 n1 = 186.0",
+            "solution": "n0 = 23.0\nn1 = 186.0\nt0 = n0 * 2.0\nt1 = n1 - t0\nt2 = t1 / 4.0\nt3 = n0 + t2\nanswer = t3 * t2  # area of rectangle"
+        },
+        {
+            "idx": 1097,
+            "prompt": "# two boys starts from the same place walking at the rate of 4.5 kmph and 5.5 kmph respectively in the same direction . what time will they take to be 9.5 km apart ? n0 = 4.5 n1 = 5.5 n2 = 9.5",
+            "solution": "n0 = 4.5\nn1 = 5.5\nn2 = 9.5\nt0 = n1 - n0\nanswer = n2 / t0"
+        },
+        {
+            "idx": 2123,
+            "prompt": "# the lenght of a room is 5.5 m and width is 4 m . find the cost of paving the floor by slabs at the rate of rs . 850 per sq . metre . n0 = 5.5 n1 = 4.0 n2 = 850.0",
+            "solution": "n0 = 5.5\nn1 = 4.0\nn2 = 850.0\nt0 = n0 * n1\nanswer = n2 * t0"
+        },
+        {
+            "idx": 2677,
+            "prompt": "# at a speed of 50 miles per hour , a certain car uses 1 gallon of gasoline every 30 miles . if the car starts with a full 10 gallon tank of gasoline and travels for 5 hours at 50 miles per hour , the amount of gasoline used would be what fraction of a full tank ? n0 = 50.0 n1 = 1.0 n2 = 30.0 n3 = 10.0 n4 = 5.0 n5 = 50.0",
+            "solution": "n0 = 50.0\nn1 = 1.0\nn2 = 30.0\nn3 = 10.0\nn4 = 5.0\nn5 = 50.0\nt0 = n0 * n4\nt1 = t0 / n2\nanswer = t1 / n3"
+        },
+        {
+            "idx": 632,
+            "prompt": "# if ( 5 ^ 5 ) ( 9 ^ 3 ) = 3 ( 15 ^ x ) , what is the value of x ? n0 = 5.0 n1 = 5.0 n2 = 9.0 n3 = 3.0 n4 = 3.0 n5 = 15.0",
+            "solution": "import math\nn0 = 5.0\nn1 = 5.0\nn2 = 9.0\nn3 = 3.0\nn4 = 3.0\nn5 = 15.0\nt0 = math.log(max(1e-5, n5), 2)\nt1 = n0**min(n1, 5)\nt2 = n2**min(n3, 5)\nt3 = t1 * t2\nt4 = t3 / n4\nt5 = math.log(max(1e-5, t4), 2)\nanswer = t5 / t0"
+        },
+        {
+            "idx": 124,
+            "prompt": "# pipe a can fill a tank in 24 minutes . pipe b can fill the same tank 6 times faster than pipe a . if both the pipes are connected to the tank so that they fill the tank simultaneously , how long will it take for the empty tank to overflow ? n0 = 24.0 n1 = 6.0",
+            "solution": "n0 = 24.0\nn1 = 6.0\nt0 = 1.0 / n0\nt1 = n1 / n0\nt2 = t0 + t1\nt3 = t2 + t0\nanswer = 1 / t3"
+        },
+        {
+            "idx": 2687,
+            "prompt": "# if k ^ 2 is divisible by 240 what is the least possible value of integer k ? n0 = 2.0 n1 = 240.0",
+            "solution": "n0 = 2.0\nn1 = 240.0\nt0 = n1 / 2.0\nanswer = t0 / 2.0"
+        },
+        {
+            "idx": 2183,
+            "prompt": "# the monthly incomes of a and b are in the ratio 5 : 2 . b ' s monthly income is 12 % more than c ' s monthly income . if c ' s monthly income is rs . 13000 , then find the annual income of a ? n0 = 5.0 n1 = 2.0 n2 = 12.0 n3 = 13000.0",
+            "solution": "n0 = 5.0\nn1 = 2.0\nn2 = 12.0\nn3 = 13000.0\nt0 = n0 / n1\nt1 = n2 / 100.0\nt2 = t1 + 1.0\nt3 = n3 * t2\nt4 = t0 * t3\nanswer = n2 * t4"
+        },
+        {
+            "idx": 146,
+            "prompt": "# in a class of 38 children , 19 play tennis , 21 play squash and 10 play neither sport . ( 1 ) how many children play both sports ? n0 = 38.0 n1 = 19.0 n2 = 21.0 n3 = 10.0 n4 = 1.0",
+            "solution": "n0 = 38.0\nn1 = 19.0\nn2 = 21.0\nn3 = 10.0\nn4 = 1.0\nt0 = n1 + n2\nt1 = n0 - n3\nanswer = t0 - t1"
+        },
+        {
+            "idx": 1173,
+            "prompt": "# a man sells an article at a profit of 25 % . if he had bought it at 20 % less and sold it for rs . 10.50 less , he would have gained 30 % . find the cost of the article . n0 = 25.0 n1 = 20.0 n2 = 10.5 n3 = 30.0",
+            "solution": "n0 = 25.0\nn1 = 20.0\nn2 = 10.5\nn3 = 30.0\nt0 = n0 + 100.0\nt1 = n3 + 100.0\nt2 = n2 * 100.0\nt3 = 100.0 - n1\nt4 = t1 * t3\nt5 = t4 / 100.0\nt6 = t0 - t5\nanswer = t2 / t6"
+        },
+        {
+            "idx": 1692,
+            "prompt": "# when an amount was distributed among 14 boys , each of them got rs 80 more than the amount received by each boy when the same amount is distributed equally among 18 boys . what was the amount ? n0 = 14.0 n1 = 80.0 n2 = 18.0",
+            "solution": "n0 = 14.0\nn1 = 80.0\nn2 = 18.0\nt0 = 1.0 / n0\nt1 = 1.0 / n2\nt2 = t0 - t1\nanswer = n1 / t2"
+        },
+        {
+            "idx": 2719,
+            "prompt": "# alfred buys an old scooter for $ 4700 and spends $ 800 on its repairs . if he sells the scooter for $ 5800 , his gain percent is ? n0 = 4700.0 n1 = 800.0 n2 = 5800.0",
+            "solution": "n0 = 4700.0\nn1 = 800.0\nn2 = 5800.0\nt0 = n0 + n1\nt1 = n2 - t0\nt2 = t1 / t0\nanswer = t2 * 100.0"
+        },
+        {
+            "idx": 1697,
+            "prompt": "# there are 10 pairs of socks and 2 socks are worn from that such that the pair of socks worn are not of the same pair . what is the number of pair that can be formed . n0 = 10.0 n1 = 2.0",
+            "solution": "import scipy\nn0 = 10.0\nn1 = 2.0\nt0 = scipy.special.comb(n0, n1)\nanswer = t0 + t0"
+        },
+        {
+            "idx": 675,
+            "prompt": "# the least number which when increased by 6 each divisible by each one of 24 , 32 , 36 and 54 is : n0 = 6.0 n1 = 24.0 n2 = 32.0 n3 = 36.0 n4 = 54.0",
+            "solution": "import scipy\nn0 = 6.0\nn1 = 24.0\nn2 = 32.0\nn3 = 36.0\nn4 = 54.0\nt0 = scipy.lcm(int(n1), int(n2))\nt1 = scipy.lcm(int(n3), int(t0))\nt2 = scipy.lcm(int(n4), int(t1))\nanswer = t2 - n0"
+        },
+        {
+            "idx": 2212,
+            "prompt": "# in a certain country 1 / 3 of 4 = 6 . assuming the same proportion , what would be the value of 1 / 6 of 20 ? n0 = 1.0 n1 = 3.0 n2 = 4.0 n3 = 6.0 n4 = 1.0 n5 = 6.0 n6 = 20.0",
+            "solution": "n0 = 1.0\nn1 = 3.0\nn2 = 4.0\nn3 = 6.0\nn4 = 1.0\nn5 = 6.0\nn6 = 20.0\nt0 = n1 / n2\nanswer = n6 * t0"
+        },
+        {
+            "idx": 2725,
+            "prompt": "# an alloy is to contain steel and iron in the ratio 5 : 2 . the iron required to be melted with 35 kg of steel is ? n0 = 5.0 n1 = 2.0 n2 = 35.0",
+            "solution": "n0 = 5.0\nn1 = 2.0\nn2 = 35.0\nt0 = n2 / n0\nanswer = n1 * t0"
+        },
+        {
+            "idx": 1190,
+            "prompt": "# a manufacturer sells a pair of glasses to a wholesale dealer at a profit of 18 % . the wholesaler sells the same to retailer at a profit of 20 % . the retailer in turn sells them to a customer for rs . 30.09 , there by earning a profit of 25 % . the cost price for the manufacturer is : n0 = 18.0 n1 = 20.0 n2 = 30.09 n3 = 25.0",
+            "solution": "n0 = 18.0\nn1 = 20.0\nn2 = 30.09\nn3 = 25.0\nt0 = 1.0 + 2.0\nt1 = n3 + 100.0\nt2 = n1 + 100.0\nt3 = n0 + 100.0\nt4 = n1 / 2.0\nt5 = 3.0 * 3.0\nt6 = t5 / 100.0\nt7 = t1 / 100.0\nt8 = t2 / 100.0\nt9 = t3 / 100.0\nt10 = t0 * t4\nt11 = t6 + t10\nt12 = t11 / t7\nt13 = t12 / t8\nanswer = t13 / t9"
+        },
+        {
+            "idx": 1187,
+            "prompt": "# a man invested rs . 14,400 in rs . 100 shares of a company at 20 % premium . if his company declares 5 % dividend at the end of the year , then how much does he get ? n0 = 14400.0 n1 = 100.0 n2 = 20.0 n3 = 5.0",
+            "solution": "n0 = 14400.0\nn1 = 100.0\nn2 = 20.0\nn3 = 5.0\nt0 = n3 / n1\nt1 = n2 / n1\nt2 = 10.0 * 1000.0\nt3 = 1000.0 * 4.0\nt4 = n1 * 4.0\nt5 = t2 + t3\nt6 = n1 * t1\nt7 = t5 + t4\nt8 = n1 + t6\nt9 = t7 / t8\nt10 = n1 * t9\nanswer = t0 * t10"
+        },
+        {
+            "idx": 1706,
+            "prompt": "# find the least number which when divided by 38 and 3 leaves a remainder of 1 in each case . n0 = 38.0 n1 = 3.0 n2 = 1.0",
+            "solution": "import scipy\nn0 = 38.0\nn1 = 3.0\nn2 = 1.0\nt0 = scipy.lcm(int(n0), int(n1))\nanswer = n2 + t0"
+        },
+        {
+            "idx": 1718,
+            "prompt": "# x can do a piece of work in 40 days . he works at it for 8 days and then y finished it in 28 days . how long will y take to complete the work ? n0 = 40.0 n1 = 8.0 n2 = 28.0",
+            "solution": "n0 = 40.0\nn1 = 8.0\nn2 = 28.0\nt0 = n1 / n0\nt1 = 1.0 - t0\nt2 = 1 / t1\nanswer = n2 * t2"
+        },
+        {
+            "idx": 2752,
+            "prompt": "# the average age of 15 men is increased by years when two of them whose ages are 21 years and 23 years are replaced by two new men . the average age of the two new men is n0 = 15.0 n1 = 21.0 n2 = 23.0",
+            "solution": "n0 = 15.0\nn1 = 21.0\nn2 = 23.0\nt0 = n1 + n2\nt1 = n0 * 1.0\nt2 = t0 / 2.0\nanswer = t2 + t1"
+        },
+        {
+            "idx": 1228,
+            "prompt": "# p and q invested in a business . the profit earned was divided in the ratio 3 : 5 . if p invested rs 12000 , the amount invested by q is n0 = 3.0 n1 = 5.0 n2 = 12000.0",
+            "solution": "n0 = 3.0\nn1 = 5.0\nn2 = 12000.0\nt0 = n2 / 2.0\nanswer = n1 * t0"
+        },
+        {
+            "idx": 205,
+            "prompt": "# the smallest 6 digit number exactly divisible by 111 is ? n0 = 6.0 n1 = 111.0",
+            "solution": "n0 = 6.0\nn1 = 111.0\nt0 = 100.0 * 1000.0\nt1 = t0 % n1\nt2 = n1 - t1\nanswer = t0 + t2"
+        },
+        {
+            "idx": 2766,
+            "prompt": "# sandy buys an old scooter for $ 800 and spends $ 200 on its repairs . if sandy sells the scooter for $ 1200 , what is the gain percent ? n0 = 800.0 n1 = 200.0 n2 = 1200.0",
+            "solution": "n0 = 800.0\nn1 = 200.0\nn2 = 1200.0\nt0 = n0 + n1\nt1 = n2 - t0\nt2 = t1 / t0\nanswer = t2 * 100.0"
+        },
+        {
+            "idx": 720,
+            "prompt": "# if ( 10 ^ 4 * 3.456789 ) ^ 10 is written as a single term , how many digits would be to the right of the decimal place ? n0 = 10.0 n1 = 4.0 n2 = 3.456789 n3 = 10.0",
+            "solution": "n0 = 10.0\nn1 = 4.0\nn2 = 3.456789\nn3 = 10.0\n\nanswer = n3 * 2.0"
+        },
+        {
+            "idx": 721,
+            "prompt": "# a certain taxi company charges $ 3.00 for the first 1 / 5 of a mile plus $ 0.40 for each additional 1 / 5 of a mile . what would this company charge for a taxi ride that was 8 miles long ? n0 = 3.0 n1 = 1.0 n2 = 5.0 n3 = 0.4 n4 = 1.0 n5 = 5.0 n6 = 8.0",
+            "solution": "n0 = 3.0\nn1 = 1.0\nn2 = 5.0\nn3 = 0.4\nn4 = 1.0\nn5 = 5.0\nn6 = 8.0\nt0 = n1 / n2\nt1 = n6 / t0\nt2 = t1 - n1\nt3 = n3 * t2\nanswer = n0 + t3"
+        },
+        {
+            "idx": 2770,
+            "prompt": "# the speed of a subway train is represented by the equation z = s ^ 2 + 2 s for all situations where 0 \u2264 s \u2264 7 , where z is the rate of speed in kilometers per hour and s is the time in seconds from the moment the train starts moving . in kilometers per hour , how much faster is the subway train moving after 7 seconds than it was moving after 4 seconds ? n0 = 2.0 n1 = 2.0 n2 = 0.0 n3 = 7.0 n4 = 7.0 n5 = 4.0",
+            "solution": "n0 = 2.0\nn1 = 2.0\nn2 = 0.0\nn3 = 7.0\nn4 = 7.0\nn5 = 4.0\nt0 = n0 * n4\nt1 = n0 * n5\nt2 = n4**min(n0, 5)\nt3 = n5**min(n0, 5)\nt4 = t0 + t2\nt5 = t1 + t3\nanswer = t4 - t5"
+        },
+        {
+            "idx": 2256,
+            "prompt": "# boy sells a book for rs . 450 he gets a loss of 10 % , to gain 10 % , what should be the sp ? n0 = 450.0 n1 = 10.0 n2 = 10.0",
+            "solution": "n0 = 450.0\nn1 = 10.0\nn2 = 10.0\nt0 = n1 / 100.0\nt1 = n2 / 100.0\nt2 = 1.0 - t0\nt3 = n0 / t2\nt4 = t3 * t1\nanswer = t3 + t4"
+        },
+        {
+            "idx": 2779,
+            "prompt": "# a bag contains 10 red jellybeans and 10 blue jellybeans . if 3 jellybeans are removed one at a time , at random and are not replaced , what is the probability q that all 3 jellybeans removed from the bag are blue ? n0 = 10.0 n1 = 10.0 n2 = 3.0 n3 = 3.0",
+            "solution": "import scipy\nn0 = 10.0\nn1 = 10.0\nn2 = 3.0\nn3 = 3.0\nt0 = n0 + n0\nt1 = scipy.special.comb(n0, n2)\nt2 = scipy.special.comb(t0, n2)\nanswer = t1 / t2"
+        },
+        {
+            "idx": 1757,
+            "prompt": "# a 20 kg metal bar made of alloy of tin and silver lost 2 kg of its weight in the water . 10 kg of tin loses 1.375 kg in the water ; 5 kg of silver loses 0.375 kg . what is the ratio of tin to silver in the bar ? n0 = 20.0 n1 = 2.0 n2 = 10.0 n3 = 1.375 n4 = 5.0 n5 = 0.375",
+            "solution": "n0 = 20.0\nn1 = 2.0\nn2 = 10.0\nn3 = 1.375\nn4 = 5.0\nn5 = 0.375\nt0 = n5 / n4\nt1 = n3 / n2\nt2 = n0 * t0\nt3 = t1 - t0\nt4 = n1 - t2\nt5 = t4 / t3\nt6 = n0 - t5\nanswer = t5 / t6"
+        },
+        {
+            "idx": 2270,
+            "prompt": "# the average age of 8 men increases by 2 years when two women are included in place of two men of ages 20 and 24 years . find the average age of the women ? n0 = 8.0 n1 = 2.0 n2 = 20.0 n3 = 24.0",
+            "solution": "n0 = 8.0\nn1 = 2.0\nn2 = 20.0\nn3 = 24.0\nt0 = n2 + n3\nt1 = n0 * n1\nt2 = t0 + t1\nanswer = t2 / 2.0"
+        },
+        {
+            "idx": 1772,
+            "prompt": "# a train passes a man standing on a platform in 8 seconds and also crosses the platform which is 279 metres long in 20 seconds . the length of the train ( in metres ) is : n0 = 8.0 n1 = 279.0 n2 = 20.0",
+            "solution": "n0 = 8.0\nn1 = 279.0\nn2 = 20.0\nt0 = n2 - n0\nt1 = n1 / t0\nanswer = n0 * t1"
+        },
+        {
+            "idx": 2807,
+            "prompt": "# the average height of 35 boys in a class was calculated as 184 cm . it has later found that the height of one of the boys in the class was wrongly written as 166 cm whereas his actual height was 106 cm . find the actual average height of the boys in the class ( round off your answer to two decimal places ? n0 = 35.0 n1 = 184.0 n2 = 166.0 n3 = 106.0",
+            "solution": "import math\nn0 = 35.0\nn1 = 184.0\nn2 = 166.0\nn3 = 106.0\nt0 = n0 * n1\nt1 = t0 - n2\nt2 = n3 + t1\nt3 = t2 / n0\nanswer = math.floor(t3)"
+        },
+        {
+            "idx": 1273,
+            "prompt": "# the ratio of 3 numbers is 1 : 2 : 4 and the sum of their squares is 1701 . the sum of the numbers is ? n0 = 3.0 n1 = 1.0 n2 = 2.0 n3 = 4.0 n4 = 1701.0",
+            "solution": "import math\nn0 = 3.0\nn1 = 1.0\nn2 = 2.0\nn3 = 4.0\nn4 = 1701.0\nt0 = n1**min(n2, 5)\nt1 = n2**min(n2, 5)\nt2 = n3**min(n2, 5)\nt3 = t0 + t1\nt4 = t3 + t2\nt5 = n4 / t4\nanswer = math.sqrt(max(0, t5))"
+        },
+        {
+            "idx": 1787,
+            "prompt": "# a searchlight on top of the watch - tower makes 3 revolutions per minute . what is the probability that a man appearing near the tower will stay in the dark for at least 10 seconds ? n0 = 3.0 n1 = 10.0",
+            "solution": "n0 = 3.0\nn1 = 10.0\nt0 = 1.0 * 60.0\nt1 = t0 / n0\nt2 = n1 / t1\nanswer = 1.0 - t2"
+        },
+        {
+            "idx": 1789,
+            "prompt": "# a can do a piece of work in 15 days . a does the work for 5 days only and leaves the job . b does the remaining work in 3 days . in how many days b alone can do the work ? n0 = 15.0 n1 = 5.0 n2 = 3.0",
+            "solution": "n0 = 15.0\nn1 = 5.0\nn2 = 3.0\nt0 = 1 / n2\nt1 = 1 / n0\nt2 = n1 * t1\nt3 = 1.0 - t2\nt4 = t0 * t3\nanswer = 1 / t4"
+        },
+        {
+            "idx": 2301,
+            "prompt": "# a cycle is bought for rs . 900 and sold for rs . 1260 , find the gain percent ? n0 = 900.0 n1 = 1260.0",
+            "solution": "n0 = 900.0\nn1 = 1260.0\nt0 = n1 - n0\nt1 = t0 / n0\nanswer = t1 * 100.0"
+        },
+        {
+            "idx": 1281,
+            "prompt": "# if x and y are numbers such that ( x + 8 ) ( y - 8 ) = 0 , what is the smallest possible value of x ^ 2 + y ^ 2 n0 = 8.0 n1 = 8.0 n2 = 0.0 n3 = 2.0 n4 = 2.0",
+            "solution": "n0 = 8.0\nn1 = 8.0\nn2 = 0.0\nn3 = 2.0\nn4 = 2.0\n\nanswer = n0**min(n3, 5)"
+        },
+        {
+            "idx": 1807,
+            "prompt": "# a can contains a mixture of liquids a and b is the ratio 7 : 5 . when 9 litres of mixture are drawn off and the can is filled with b , the ratio of a and b becomes 7 : 9 . how many liter t of liquid a was contained by the can initially ? n0 = 7.0 n1 = 5.0 n2 = 9.0 n3 = 7.0 n4 = 9.0",
+            "solution": "n0 = 7.0\nn1 = 5.0\nn2 = 9.0\nn3 = 7.0\nn4 = 9.0\nt0 = n0 + n2\nt1 = n0 + n1\nt2 = n0 * n2\nt3 = n0 * n1\nt4 = n1 / t1\nt5 = t2 - t3\nt6 = n2 * t4\nt7 = n2 - t6\nt8 = t0 * t7\nt9 = t8 / t5\nanswer = n0 * t9"
+        },
+        {
+            "idx": 2832,
+            "prompt": "# the sum of first n consecutive odd integers is n ^ 2 . what is the sum of all odd integers between 13 and 35 inclusive . n0 = 2.0 n1 = 13.0 n2 = 35.0",
+            "solution": "n0 = 2.0\nn1 = 13.0\nn2 = 35.0\nt0 = n2 + 1.0\nt1 = n1 - n0\nt2 = t1 + 1.0\nt3 = t0 / n0\nt4 = t2 / n0\nt5 = t3**min(n0, 5)\nt6 = t4**min(n0, 5)\nanswer = t5 - t6"
+        },
+        {
+            "idx": 1299,
+            "prompt": "# find the value of y from ( 12 ) ^ 3 x 6 ^ 3 \u00f7 432 = y ? n0 = 12.0 n1 = 3.0 n2 = 6.0 n3 = 3.0 n4 = 432.0",
+            "solution": "n0 = 12.0\nn1 = 3.0\nn2 = 6.0\nn3 = 3.0\nn4 = 432.0\nt0 = n0**min(n1, 5)\nt1 = n2**min(n3, 5)\nt2 = t0 * t1\nanswer = t2 / n4"
+        },
+        {
+            "idx": 1813,
+            "prompt": "# if n = 2 ^ 0.3 and n ^ b = 16 , b must equal n0 = 2.0 n1 = 0.3 n2 = 16.0",
+            "solution": "import math\nn0 = 2.0\nn1 = 0.3\nn2 = 16.0\nt0 = math.log(max(1e-5, n2), 2)\nt1 = n0**min(n1, 5)\nt2 = math.log(max(1e-5, t1), 2)\nanswer = t0 / t2"
+        },
+        {
+            "idx": 797,
+            "prompt": "# how many times digit 6 is used while writing numbers from 80 to 1000 ? n0 = 6.0 n1 = 80.0 n2 = 1000.0",
+            "solution": "n0 = 6.0\nn1 = 80.0\nn2 = 1000.0\nt0 = 1.0 + 10.0\nt1 = n0 * 2.0\nt2 = n2 - n1\nt3 = t2 / 10.0\nt4 = t0 * t0\nt5 = t3 + t4\nanswer = t5 + t1"
+        },
+        {
+            "idx": 1310,
+            "prompt": "# what is the area of square field whose side of length 20 m ? n0 = 20.0",
+            "solution": "n0 = 20.0\n\nanswer = n0**2"
+        },
+        {
+            "idx": 1821,
+            "prompt": "# train starts from amritsar to bombay at 9 am . it reaches destination after 3 days at 9 : 30 am . every day a train starts . how many trains does it come across on the way ? n0 = 9.0 n1 = 3.0 n2 = 9.0 n3 = 30.0",
+            "solution": "n0 = 9.0\nn1 = 3.0\nn2 = 9.0\nn3 = 30.0\n\nanswer = n1 + 1.0"
+        },
+        {
+            "idx": 2850,
+            "prompt": "# one - fourth of the workers in palabras bookstore have read the latest book by j . saramago , and 5 / 8 of the workers have read the latest book by h . kureishi . the number of workers that have read neither book is one less than the number of the workers that have read the latest saramago book and have not read the latest kureishi book . if there are 40 workers in the palabras bookstore , how many of them have read both books ? n0 = 5.0 n1 = 8.0 n2 = 40.0",
+            "solution": "n0 = 5.0\nn1 = 8.0\nn2 = 40.0\nt0 = n2 / 4.0\nt1 = n2 / n1\nt2 = t0 + t0\nt3 = n0 * t1\nt4 = t2 + t3\nt5 = t4 - n2\nt6 = t5 - 1.0\nanswer = t6 / 2.0"
+        },
+        {
+            "idx": 1826,
+            "prompt": "# the mean proportional between 234 and 104 is n0 = 234.0 n1 = 104.0",
+            "solution": "import math\nn0 = 234.0\nn1 = 104.0\nt0 = n0 * n1\nanswer = math.sqrt(max(0, t0))"
+        },
+        {
+            "idx": 1830,
+            "prompt": "# if a no . when divided by 44 , gives 432 as quotient and 0 as remainder . what will be the remainder when dividing the same no . by 38 n0 = 44.0 n1 = 432.0 n2 = 0.0 n3 = 38.0",
+            "solution": "n0 = 44.0\nn1 = 432.0\nn2 = 0.0\nn3 = 38.0\nt0 = n0 * n1\nanswer = t0 % n3"
+        },
+        {
+            "idx": 311,
+            "prompt": "# a cheese factory sells its cheese in rectangular blocks . a normal block has a volume of three cubic feet . if a large block has twice the width , twice the depth , and three times the length of a normal block , what is the volume of cheese in a large block in cubic feet ?",
+            "solution": "t0 = 2.0 * 2.0\nt1 = t0 * 3.0\nanswer = t1 * 3.0"
+        },
+        {
+            "idx": 1344,
+            "prompt": "# if v is the product of the integers from 1 to 30 , inclusive , what is the greatest integer k for which 3 ^ k is a factor of v ? n0 = 1.0 n1 = 30.0 n2 = 3.0",
+            "solution": "import math\nn0 = 1.0\nn1 = 30.0\nn2 = 3.0\nt0 = n1 / n2\nt1 = n2**min(2.0, 5)\nt2 = n2**min(n2, 5)\nt3 = n1 / t1\nt4 = n1 / t2\nt5 = math.floor(t3)\nt6 = math.floor(t4)\nt7 = t0 + t5\nanswer = t7 + t6"
+        },
+        {
+            "idx": 329,
+            "prompt": "# an industrial loom weaves 0.128 metres of cloth every second . approximately , how many seconds will it take for the loom to weave 25 metres of cloth ? n0 = 0.128 n1 = 25.0",
+            "solution": "n0 = 0.128\nn1 = 25.0\n\nanswer = n1 / n0"
+        },
+        {
+            "idx": 2890,
+            "prompt": "# rahim bought 55 books for rs . 1500 from one shop and 60 books for rs . 340 from another . what is the average price he paid per book ? n0 = 55.0 n1 = 1500.0 n2 = 60.0 n3 = 340.0",
+            "solution": "n0 = 55.0\nn1 = 1500.0\nn2 = 60.0\nn3 = 340.0\nt0 = n1 + n3\nt1 = n0 + n2\nanswer = t0 / t1"
+        },
+        {
+            "idx": 2379,
+            "prompt": "# a university cafeteria offers 4 flavors of pizza - pepperoni , chicken , hawaiian and vegetarian . if a customer has an option ( but not the obligation ) to add extra cheese , mushrooms or both to any kind of pizza , how many different pizza varieties are available ? n0 = 4.0",
+            "solution": "n0 = 4.0\n\nanswer = n0 * 4.0"
+        },
+        {
+            "idx": 1869,
+            "prompt": "# a rectangular grass field is 60 m * 55 m , it has a path of 2.5 m wide all round it on the outside . find the area of the path and the cost of constructing it at rs . 2 per sq m ? n0 = 60.0 n1 = 55.0 n2 = 2.5 n3 = 2.0",
+            "solution": "n0 = 60.0\nn1 = 55.0\nn2 = 2.5\nn3 = 2.0\nt0 = n2 * n3\nt1 = n0 * n1  # area of rectangle\nt2 = n0 + t0\nt3 = n1 + t0\nt4 = t2 * t3  # area of rectangle\nt5 = t4 - t1\nanswer = n3 * t5"
+        },
+        {
+            "idx": 854,
+            "prompt": "# jerry went to a shop and bought things worth rs . 45 , out of which 30 % went on sales tax on taxable purchases . if the tax rate was 6 % , then what was the cost of the tax free items ? n0 = 45.0 n1 = 30.0 n2 = 6.0",
+            "solution": "n0 = 45.0\nn1 = 30.0\nn2 = 6.0\nt0 = n1 / 100.0\nt1 = 100.0 / n2\nt2 = t0 * t1\nt3 = t0 + t2\nanswer = n0 - t3"
+        },
+        {
+            "idx": 2904,
+            "prompt": "# jim \u2019 s taxi service charges an initial fee of $ 2.05 at the beginning of a trip and an additional charge of $ 0.35 for each 2 / 5 of a mile traveled . what is the total charge for a trip of 3.6 miles ? n0 = 2.05 n1 = 0.35 n2 = 2.0 n3 = 5.0 n4 = 3.6",
+            "solution": "n0 = 2.05\nn1 = 0.35\nn2 = 2.0\nn3 = 5.0\nn4 = 3.6\nt0 = n2 / n3\nt1 = n4 / t0\nt2 = n1 * t1\nanswer = n0 + t2"
+        },
+        {
+            "idx": 1372,
+            "prompt": "# 100 is increased by 50 % . find the final number . n0 = 100.0 n1 = 50.0",
+            "solution": "n0 = 100.0\nn1 = 50.0\nt0 = n1 / 100.0\nt1 = n0 * t0\nanswer = n0 + t1"
+        },
+        {
+            "idx": 2397,
+            "prompt": "# an analysis of the monthly incentives received by 5 salesmen : the mean and median of the incentives is $ 7000 . the only mode among the observations is $ 12000 . incentives paid to each salesman were in full thousands . what is the difference z between the highest and the lowest incentive received by the 5 salesmen in the month ? n0 = 5.0 n1 = 7000.0 n2 = 12000.0 n3 = 5.0",
+            "solution": "n0 = 5.0\nn1 = 7000.0\nn2 = 12000.0\nn3 = 5.0\n\nanswer = n2 - 1000.0"
+        },
+        {
+            "idx": 2402,
+            "prompt": "# when positive integer x is divided by positive integer y , the remainder is 3 . if x / y = 96.15 , what is the value of y ? n0 = 3.0 n1 = 96.15",
+            "solution": "import math\nn0 = 3.0\nn1 = 96.15\nt0 = math.floor(n1)\nt1 = n1 - t0\nanswer = n0 / t1"
+        },
+        {
+            "idx": 361,
+            "prompt": "# the dimensions of a room are 25 feet * 15 feet * 12 feet . what is the cost of white washing the four walls of the room at rs . 2 per square feet if there is one door of dimensions 6 feet * 3 feet and three windows of dimensions 4 feet * 3 feet each ? n0 = 25.0 n1 = 15.0 n2 = 12.0 n3 = 2.0 n4 = 6.0 n5 = 3.0 n6 = 4.0 n7 = 3.0",
+            "solution": "n0 = 25.0\nn1 = 15.0\nn2 = 12.0\nn3 = 2.0\nn4 = 6.0\nn5 = 3.0\nn6 = 4.0\nn7 = 3.0\nt0 = n0 + n1\nt1 = n2 * 2.0\nt2 = n4 * n5\nt3 = n5 * n6\nt4 = t0 * t1\nt5 = n5 * t3\nt6 = t4 - t2\nt7 = t6 - t5\nanswer = n3 * t7"
+        },
+        {
+            "idx": 874,
+            "prompt": "# the radius of a wheel is 22.4 cm . what is the distance covered by the wheel in making 1250 resolutions ? n0 = 22.4 n1 = 1250.0",
+            "solution": "n0 = 22.4\nn1 = 1250.0\nt0 = 3.0 + 4.0\nt1 = t0 * 3.0\nt2 = t1 + 1.0\nt3 = t2 / t0\nt4 = n0 * t3\nt5 = t4 * 2.0\nt6 = n1 * t5\nanswer = t6 / 100.0"
+        },
+        {
+            "idx": 1902,
+            "prompt": "# find the constant k so that : - x 2 - ( k + 9 ) x - 8 = - ( x - 2 ) ( x - 4 ) n0 = 2.0 n1 = 9.0 n2 = 8.0 n3 = 2.0 n4 = 4.0",
+            "solution": "n0 = 2.0\nn1 = 9.0\nn2 = 8.0\nn3 = 2.0\nn4 = 4.0\nt0 = n0 + n4\nanswer = n1 + t0"
+        },
+        {
+            "idx": 2927,
+            "prompt": "# in 2008 , the profits of company n were 8 percent of revenues . in 2009 , the revenues of company n fell by 20 percent , but profits were 15 percent of revenues . the profits in 2009 were what percent of the profits in 2008 ? n0 = 2008.0 n1 = 8.0 n2 = 2009.0 n3 = 20.0 n4 = 15.0 n5 = 2009.0 n6 = 2008.0",
+            "solution": "n0 = 2008.0\nn1 = 8.0\nn2 = 2009.0\nn3 = 20.0\nn4 = 15.0\nn5 = 2009.0\nn6 = 2008.0\nt0 = n3 / 100.0\nt1 = 1.0 - t0\nt2 = n4 * t1\nt3 = t2 / n1\nanswer = t3 * 100.0"
+        },
+        {
+            "idx": 1911,
+            "prompt": "# in a class of 52 students , 12 enrolled for both english and german . 22 enrolled for german . if the students of the class enrolled for at least one of the two subjects , then how many students enrolled for only english and not german ? n0 = 52.0 n1 = 12.0 n2 = 22.0",
+            "solution": "n0 = 52.0\nn1 = 12.0\nn2 = 22.0\nt0 = n0 + n1\nt1 = t0 - n2\nanswer = t1 - n1"
+        },
+        {
+            "idx": 385,
+            "prompt": "# in an exam ashley secured 332 marks . if she secured 83 % makes , find the maximum marks n0 = 332.0 n1 = 83.0",
+            "solution": "n0 = 332.0\nn1 = 83.0\nt0 = n1 / 100.0\nanswer = n0 / t0"
+        },
+        {
+            "idx": 1931,
+            "prompt": "# the product of a and b is equal to 11 more than twice the sum of a and b . if b = 7 , what is the value of b - a ? n0 = 11.0 n1 = 7.0",
+            "solution": "n0 = 11.0\nn1 = 7.0\nt0 = n1 * 2.0\nt1 = n1 - 2.0\nt2 = n0 + t0\nt3 = t2 / t1\nanswer = n1 - t3"
+        },
+        {
+            "idx": 404,
+            "prompt": "# a man started driving at a constant speed , from the site of a blast , the moment he heard the blast . he heard a second blast after a time of 30 mins and 20 seconds . if the second blast occurred exactly 30 mins after the first , how many meters was he from the site when he heard the second blast ? ( speed of sound = 330 m / s ) n0 = 30.0 n1 = 20.0 n2 = 30.0 n3 = 330.0",
+            "solution": "n0 = 30.0\nn1 = 20.0\nn2 = 30.0\nn3 = 330.0\n\nanswer = n1 * n3"
+        },
+        {
+            "idx": 921,
+            "prompt": "# a train with 1200 m crosses a tree in 120 sec , how much time will i take to pass a platform 700 m long ? n0 = 1200.0 n1 = 120.0 n2 = 700.0",
+            "solution": "n0 = 1200.0\nn1 = 120.0\nn2 = 700.0\nt0 = n0 + n2\nt1 = n0 / n1\nanswer = t0 / t1"
+        },
+        {
+            "idx": 1438,
+            "prompt": "# if a boat is rowed downstream for 600 km in 20 hours and upstream for 48 km in 4 hours , what is the speed of the boat and the river ? n0 = 600.0 n1 = 20.0 n2 = 48.0 n3 = 4.0",
+            "solution": "n0 = 600.0\nn1 = 20.0\nn2 = 48.0\nn3 = 4.0\nt0 = n2 / n3\nt1 = n0 / n1\nt2 = t0 + t1\nanswer = t2 / 2.0"
+        },
+        {
+            "idx": 1956,
+            "prompt": "# in 1979 approximately 1 / 3 of the 38.3 million airline passengers traveling to or from the united states used kennedy airport . if the number of such passengers that used miami airport was 1 / 2 the number that used kennedy airport and 4 times the number that used logan airport , approximately how many millions of these passengers used logan airport that year ? n0 = 1979.0 n1 = 1.0 n2 = 3.0 n3 = 38.3 n4 = 1.0 n5 = 2.0 n6 = 4.0",
+            "solution": "n0 = 1979.0\nn1 = 1.0\nn2 = 3.0\nn3 = 38.3\nn4 = 1.0\nn5 = 2.0\nn6 = 4.0\nt0 = n3 / n2\nt1 = n5 * n6\nanswer = t0 / t1"
+        },
+        {
+            "idx": 934,
+            "prompt": "# there was two trains from calcutta to kanyakumari one train is fast service travels with a speed 75 km per hour another travels with a speed of 44 km per hour the time taken to reach from calcutta to kanyakumari is 4 hours less than the first train . . . find the distance b / w calcatta to kanyakumari n0 = 75.0 n1 = 44.0 n2 = 4.0",
+            "solution": "n0 = 75.0\nn1 = 44.0\nn2 = 4.0\nt0 = n0 * n1\nt1 = n0 - n1\nt2 = t0 * 4.0\nanswer = t2 / t1"
+        },
+        {
+            "idx": 937,
+            "prompt": "# harish can paint a wall in just 3 hours . however it takes 6 hours for ganpat to complete the same job of painting the wall . how long would it take for both of them to paint the wall , if both work together ? n0 = 3.0 n1 = 6.0",
+            "solution": "n0 = 3.0\nn1 = 6.0\nt0 = 1 / n0\nt1 = 1 / n1\nt2 = t0 + t1\nanswer = 1 / t2"
+        },
+        {
+            "idx": 1453,
+            "prompt": "# of the 100 people in a room , 2 / 5 are women . if 1 / 4 of the people are married , what is the maximum number of women in the room who could be unmarried ? n0 = 100.0 n1 = 2.0 n2 = 5.0 n3 = 1.0 n4 = 4.0",
+            "solution": "n0 = 100.0\nn1 = 2.0\nn2 = 5.0\nn3 = 1.0\nn4 = 4.0\nt0 = n1 / n2\nanswer = n0 * t0"
+        },
+        {
+            "idx": 2477,
+            "prompt": "# reena took a loan of $ . 1200 with simple interest for as many years as the rate of interest . if she paid $ 192 as interest at the end of the loan period , what was the rate of interest ? n0 = 1200.0 n1 = 192.0",
+            "solution": "import math\nn0 = 1200.0\nn1 = 192.0\nt0 = n1 * 100.0\nt1 = t0 / n0\nanswer = math.sqrt(max(0, t1))"
+        },
+        {
+            "idx": 2489,
+            "prompt": "# the number of people who purchased book a is twice the number of people who purchased book b . the number of people who purchased both books a and b is 500 , which is twice the number of people who purchased only book b . what is the number of people z who purchased only book a ? n0 = 500.0",
+            "solution": "n0 = 500.0\nt0 = n0 / 2.0\nt1 = n0 + t0\nt2 = t1 * 2.0\nanswer = t2 - n0"
+        },
+        {
+            "idx": 1982,
+            "prompt": "# the diagonal of the floor of a rectangular closet is 7 feet . the shorter side of the closet is 4 feet . what is the area of the closet in square feet ? n0 = 7.0 n1 = 4.0",
+            "solution": "import math\nn0 = 7.0\nn1 = 4.0\nt0 = 2.0 * 4.0\nt1 = n0 * 2.0\nt2 = t0 + 1.0\nt3 = t1 + 1.0\nt4 = t2 / 2.0\nt5 = t3 / 2.0\nt6 = t5**min(2.0, 5)\nt7 = t4**min(2.0, 5)\nt8 = t6 - t7\nt9 = math.sqrt(max(0, t8))\nanswer = t4 * t9  # area of rectangle"
+        },
+        {
+            "idx": 1985,
+            "prompt": "# the manager at a health foods store mixes a unique superfruit juice cocktail that costs $ 1399.45 per litre to make . the cocktail includes mixed fruit juice and a \u00e7 ai berry juice , which cost $ 262.85 per litre and $ 3104.35 per litre , respectively . the manager has already opened 36 litres of the mixed fruit juice . how many litres of the a \u00e7 ai berry juice does he need to add ? n0 = 1399.45 n1 = 262.85 n2 = 3104.35 n3 = 36.0",
+            "solution": "n0 = 1399.45\nn1 = 262.85\nn2 = 3104.35\nn3 = 36.0\nt0 = n0 * n3\nt1 = n1 * n3\nt2 = n2 - n0\nt3 = t0 - t1\nanswer = t3 / t2"
+        },
+        {
+            "idx": 972,
+            "prompt": "# a train usually travels at a speed of 72 kmph crossing a pole in 7 sec , what would be the length of the train ? n0 = 72.0 n1 = 7.0",
+            "solution": "n0 = 72.0\nn1 = 7.0\nt0 = n0 * 1000.0\nt1 = t0 / 3600.0\nanswer = n1 * t1"
+        },
+        {
+            "idx": 467,
+            "prompt": "# 36 men working 8 hours per day dig 30 m deep . how many extra men should be put to dig to a depth of 50 m working 6 hours per day ? n0 = 36.0 n1 = 8.0 n2 = 30.0 n3 = 50.0 n4 = 6.0",
+            "solution": "n0 = 36.0\nn1 = 8.0\nn2 = 30.0\nn3 = 50.0\nn4 = 6.0\nt0 = n0 * n1\nt1 = t0 / n2\nt2 = n3 * t1\nt3 = t2 / n4\nanswer = t3 - n0"
+        },
+        {
+            "idx": 1495,
+            "prompt": "# a can finish a piece of work in 5 days . b can do it in 15 days . they work together for two days and then a goes away . in how many days will b finish the work ? n0 = 5.0 n1 = 15.0",
+            "solution": "n0 = 5.0\nn1 = 15.0\nt0 = 1.0 / n0\nt1 = 1.0 / n1\nt2 = t0 * 2.0\nt3 = t1 * 2.0\nt4 = t2 + t3\nt5 = 1.0 - t4\nanswer = t5 / t1"
+        },
+        {
+            "idx": 2525,
+            "prompt": "# there were 35 students in a hostel . due to the admission of 7 new students the expenses of the mess were increased by rs . 84 per day while the average expenditure per head diminished by re 1 . what was the original expenditure of the mess ? n0 = 35.0 n1 = 7.0 n2 = 84.0 n3 = 1.0",
+            "solution": "n0 = 35.0\nn1 = 7.0\nn2 = 84.0\nn3 = 1.0\nt0 = n0 + n1\nt1 = n2 + t0\nt2 = t1 / n1\nanswer = n0 * t2"
+        },
+        {
+            "idx": 2526,
+            "prompt": "# x can finish a work in 18 days . y can finish the same work in 15 days . yworked for 10 days and left the job . how many days does x alone need to finish the remaining work ? n0 = 18.0 n1 = 15.0 n2 = 10.0",
+            "solution": "n0 = 18.0\nn1 = 15.0\nn2 = 10.0\nt0 = 1.0 / n1\nt1 = 1.0 / n0\nt2 = n2 * t0\nt3 = 1.0 - t2\nanswer = t3 / t1"
+        },
+        {
+            "idx": 1513,
+            "prompt": "# a van takes 6 hours to cover a distance of 180 km . how much should the speed in kmph be maintained to cover the same direction in 3 / 2 th of the previous time ? n0 = 6.0 n1 = 180.0 n2 = 3.0 n3 = 2.0",
+            "solution": "n0 = 6.0\nn1 = 180.0\nn2 = 3.0\nn3 = 2.0\nt0 = n2 / n3\nt1 = n0 * t0\nanswer = n1 / t1"
+        },
+        {
+            "idx": 493,
+            "prompt": "# the vertex of a rectangle are ( 1 , 0 ) , ( 5 , 0 ) , ( 1 , 2 ) and ( 5 , 2 ) respectively . if line l passes through the origin and divided the rectangle into two identical quadrilaterals , what is the slope of line l ? n0 = 1.0 n1 = 0.0 n2 = 5.0 n3 = 0.0 n4 = 1.0 n5 = 2.0 n6 = 5.0 n7 = 2.0",
+            "solution": "n0 = 1.0\nn1 = 0.0\nn2 = 5.0\nn3 = 0.0\nn4 = 1.0\nn5 = 2.0\nn6 = 5.0\nn7 = 2.0\nt0 = n2 - n0\nt1 = t0 + n5\nt2 = t1 / n5\nanswer = n0 / t2"
+        },
+        {
+            "idx": 2032,
+            "prompt": "# in a sports club with 28 members , 17 play badminton and 19 play tennis and 2 do not play either . how many members play both badminton and tennis ? n0 = 28.0 n1 = 17.0 n2 = 19.0 n3 = 2.0",
+            "solution": "n0 = 28.0\nn1 = 17.0\nn2 = 19.0\nn3 = 2.0\nt0 = n1 + n2\nt1 = n3 + t0\nanswer = t1 - n0"
+        },
+        {
+            "idx": 2545,
+            "prompt": "# if one root of the equation 2 x ^ 2 + 3 x \u2013 k = 0 is 5 , what is the value of k ? n0 = 2.0 n1 = 2.0 n2 = 3.0 n3 = 0.0 n4 = 5.0",
+            "solution": "n0 = 2.0\nn1 = 2.0\nn2 = 3.0\nn3 = 0.0\nn4 = 5.0\nt0 = n2 * n4\nt1 = n4**min(n0, 5)\nt2 = n0 * t1\nanswer = t2 + t0"
+        },
+        {
+            "idx": 2546,
+            "prompt": "# a student gets 70 % in one subject , 80 % in the other . to get an overall of 75 % how much should get in third subject . n0 = 70.0 n1 = 80.0 n2 = 75.0",
+            "solution": "n0 = 70.0\nn1 = 80.0\nn2 = 75.0\nt0 = n0 + n1\nt1 = n2 * 3.0\nanswer = t1 - t0"
+        },
+        {
+            "idx": 1018,
+            "prompt": "# a person spends 1 / 3 rd of the money with him on clothes , 1 / 5 th of the remaining on food and 1 / 4 th of the remaining on travel . now , he is left with rs 400 . how much did he have with him in the beginning ? n0 = 1.0 n1 = 3.0 n2 = 1.0 n3 = 5.0 n4 = 1.0 n5 = 4.0 n6 = 400.0",
+            "solution": "n0 = 1.0\nn1 = 3.0\nn2 = 1.0\nn3 = 5.0\nn4 = 1.0\nn5 = 4.0\nn6 = 400.0\nt0 = n0 / n1\nt1 = n0 - t0\nt2 = t1 / n3\nt3 = t1 - t2\nt4 = t3 / n5\nt5 = t3 - t4\nanswer = n6 / t5"
+        },
+        {
+            "idx": 1023,
+            "prompt": "# population is 20000 . pop increases by 10 % every year , then the pop after 3 years is ? n0 = 20000.0 n1 = 10.0 n2 = 3.0",
+            "solution": "n0 = 20000.0\nn1 = 10.0\nn2 = 3.0\nt0 = n1 / 100.0\nt1 = n0 * t0\nt2 = n0 + t1\nt3 = t2 * t0\nt4 = t2 + t3\nt5 = t4 * t0\nanswer = t4 + t5"
+        }
+    ]
+}

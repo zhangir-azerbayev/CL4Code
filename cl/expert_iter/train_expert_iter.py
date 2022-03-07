@@ -29,7 +29,8 @@ def change_code(instance, code):
     return instance
 
 
-def train_model(model, tokenizer, labelled_examples, training_run_name, cfg): 
+def train_model(model, tokenizer, labelled_examples, training_run_name, cfg):
+
     train_set = MathQAPython(labelled_examples, tokenizer, cfg["max_length"])
 
 
@@ -45,16 +46,20 @@ def train_model(model, tokenizer, labelled_examples, training_run_name, cfg):
             "weight_decay": 0.0,
         },
     ]
+    
+    optimizer = AdamW(optimizer_grouped_parameters, lr=2e-5)
+    lr_lambda = lambda step: 1
+    scheduler = LambdaLR(optimizer, lr_lambda=lr_lambda)
 
 
     experiment_name = cfg["experiment_name"]
+    steps_per_epoch = len(train_set)//cfg["train_batch_size"] + 1
 
     training_args = TrainingArguments(output_dir=f"./results_train/{experiment_name}/MLElogs/{training_run_name}",
                                       num_train_epochs=cfg["epochs"],
                                       per_device_train_batch_size=cfg["train_batch_size"], 
-                                      logging_steps=500,
-                                      save_steps=cfg["epochs"] * len(train_set)//cfg["train_batch_size"],
-                                      warmup_steps = 100, 
+                                      logging_steps=steps_per_epoch,
+                                      save_steps=cfg["epochs"]*steps_per_epoch,
                                       )
 
     def data_collator(data):
@@ -65,7 +70,8 @@ def train_model(model, tokenizer, labelled_examples, training_run_name, cfg):
 
     print(f"###############{training_run_name}#################")
     Trainer(model=model, args=training_args, train_dataset=train_set, 
-            data_collator=data_collator).train()
+            data_collator=data_collator, 
+            optimizers=(optimizer, scheduler)).train()
 
     return model 
 
@@ -79,14 +85,13 @@ def update_solved(model,
                   solved, 
                   solutions, 
                   train_set, 
-                  inference_batch_size, 
-                  num_samples,
                   temp, 
-                  device,
+                  cfg,
                   ): 
     print("#############Updating S_k#################")
     max_text_length = 200
-    max_new_tokens = 200
+    max_new_tokens = 150
+    device = "cuda:" + cfg["devices"]
 
     inference_dataset = [{"idx": i, 
                           "text": instance.text, 
@@ -96,22 +101,24 @@ def update_solved(model,
 
  
     dataloader = DataLoader(inference_dataset, 
-            batch_size=inference_batch_size)
+            batch_size=cfg["inference_batch_size"], drop_last=False)
 
     for batch in tqdm(dataloader): 
         batch_length = len(batch["text"])
         encoded_texts = tokenizer(batch["text"], return_tensors="pt",
-            max_length=max_text_length, padding='max_length').to(device)
-
-        print(encoded_texts)
-        
-        outputs = torch.reshape(model.generate(**encoded_texts, 
+            max_length=max_text_length, padding='max_length', 
+            truncation=True).to(device)
+ 
+        outputs = model.generate(**encoded_texts, 
                                  do_sample=True, 
                                  temperature=temp, 
                                  max_new_tokens = max_new_tokens, 
                                  pad_token_id=tokenizer.eos_token_id, 
-                                 num_return_sequences = int(num_samples),
-                                ), (batch_length, num_samples, -1))
+                                 num_return_sequences = cfg["inference_num_samples"],
+                                )
+
+        outputs = torch.reshape(outputs, 
+                (batch_length, cfg["inference_num_samples"], -1))
 
         for idx, label, outs in zip(batch["idx"], batch["answer"], outputs): 
             generated_ids = [ids[max_text_length:] for ids in outs]
@@ -132,7 +139,7 @@ def update_solved(model,
 
             if True in passed_lst: 
                 gold_code = bodies[passed_lst.index(True)]
-                solved.append(idx.item())
+                solved.add(idx.item())
                 solutions[idx.item()] = gold_code
 
               
@@ -174,7 +181,7 @@ def main():
     all_data_list = all_data_list[:max_instances]
 
     # Seed with 100 labelled examples 
-    num_seeds = 100
+    num_seeds = 1000
     solved = set(random.sample(range(max_instances), num_seeds))
 
     solutions = [None for _ in range(max_instances)]
@@ -193,10 +200,8 @@ def main():
                                          solved, 
                                          solutions, 
                                          all_data_list, 
-                                         inference_num_samples,
-                                         0.2, 
-                                         1, 
-                                         device,
+                                         temp=1, 
+                                         cfg=cfg,
                                          )
 
         print("NUMBER SOLVED: ", len(solved))

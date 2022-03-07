@@ -1,10 +1,10 @@
-experiment_name: 00_seed100
+experiment_name: 02_seed1000
 param_count: 125M
-devices: "7"
-epochs: 3
+devices: "0"
+epochs: 1
 max_length: 400
-inference_batch_size: 16
-inference_num_samples: 10
-train_batch_size: 16
+inference_batch_size: 25
+inference_num_samples: 20
+train_batch_size: 32
 num_iters: 20
 weight_decay: 0.01
