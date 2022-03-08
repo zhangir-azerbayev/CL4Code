@@ -93,6 +93,8 @@ def update_solved(model,
     max_new_tokens = 150
     device = "cuda:" + cfg["devices"]
 
+    fail_log = []
+
     inference_dataset = [{"idx": i, 
                           "text": instance.text, 
                           "answer": instance.answer}
@@ -120,7 +122,7 @@ def update_solved(model,
         outputs = torch.reshape(outputs, 
                 (batch_length, cfg["inference_num_samples"], -1))
 
-        for idx, label, outs in zip(batch["idx"], batch["answer"], outputs): 
+        for text, idx, label, outs in zip(batch["text"], batch["idx"], batch["answer"], outputs): 
             generated_ids = [ids[max_text_length:] for ids in outs]
             untrunced_bodies = [tokenizer.decode(sample, skip_specials_tokens=True)
                     for sample in generated_ids]
@@ -141,9 +143,15 @@ def update_solved(model,
                 gold_code = bodies[passed_lst.index(True)]
                 solved.add(idx.item())
                 solutions[idx.item()] = gold_code
+            else: 
+                to_log = {"idx": idx, 
+                          "text": text, 
+                          "label": label
+                          "samples": bodies}
+                fail_log.append(to_log)
 
               
-    return solved, solutions
+    return solved, solutions, fail_log
 
 
                 
@@ -192,26 +200,29 @@ def main():
     for i in range(num_iters): 
         labelled_examples = [change_code(all_data_list[i], solutions[i]) for i in solved]
 
-        model = train_model(model, tokenizer, labelled_examples, f"MLE{i}", cfg)
+        model = train_model(model, tokenizer, labelled_examples, f"{i}MLE", cfg)
 
 
-        solved, solutions = update_solved(model, 
+        solved, solutions, fail_log = update_solved(model, 
                                          tokenizer,
                                          solved, 
                                          solutions, 
                                          all_data_list, 
-                                         temp=1, 
+                                         temp=0.2, 
                                          cfg=cfg,
                                          )
 
         print("NUMBER SOLVED: ", len(solved))
 
         
-        with open(f"results_train/{experiment_name}/S{i}.json", "w") as fle: 
+        with open(f"results_train/{experiment_name}/{i}_S.json", "w") as fle: 
             json.dump({"num solved": len(solved), 
                        "solutions": [{"idx": i, "prompt": all_data_list[i].text, "solution": solutions[i]} 
                                         for i in solved]
                       }, fle, indent=4)
+
+        with open(f"results_train/{experiment_name}/{i}_fail_log.json", "w") as fle: 
+            json.dump(fail_log, fle, indent=4)
 
 
 if __name__=="__main__": 
