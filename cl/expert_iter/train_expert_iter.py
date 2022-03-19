@@ -124,10 +124,10 @@ def update_solved(model,
 
         for text, idx, label, outs in zip(batch["text"], batch["idx"], batch["answer"], outputs): 
             generated_ids = [ids[max_text_length:] for ids in outs]
-            untrunced_bodies = [tokenizer.decode(sample, skip_specials_tokens=True)
+            untrunced_bodies = [tokenizer.decode(sample, skip_specials_tokens=False)
                     for sample in generated_ids]
         
-            re_key = '^answer.*?\n'
+            re_key = '(^answer.*?\n|<\|endoftext\|>)'
 
             bodies = [completion[:re.search(re_key, completion).span()[1]]
                 if re.search(re_key, completion) else completion
@@ -144,9 +144,9 @@ def update_solved(model,
                 solved.add(idx.item())
                 solutions[idx.item()] = gold_code
             else: 
-                to_log = {"idx": idx, 
+                to_log = {"idx": idx.item(), 
                           "text": text, 
-                          "label": label
+                          "label": label.item(),
                           "samples": bodies}
                 fail_log.append(to_log)
 

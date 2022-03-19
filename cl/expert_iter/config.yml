@@ -1,10 +1,10 @@
-experiment_name: 02_seed1000
+experiment_name: 04_withfaillog
 param_count: 125M
 devices: "0"
-epochs: 1
+epochs: 5
 max_length: 400
 inference_batch_size: 25
 inference_num_samples: 20
 train_batch_size: 32
-num_iters: 20
+num_iters: 5
 weight_decay: 0.01
