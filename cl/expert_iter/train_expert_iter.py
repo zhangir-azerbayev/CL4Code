@@ -75,6 +75,21 @@ def train_model(model, tokenizer, labelled_examples, training_run_name, cfg):
 
     return model 
 
+def tokens_to_programs(outs, input_length, tokenizer): 
+    generated_ids = [ids[input_length:] for ids in outs]
+    untrunced_bodies = [tokenizer.decode(sample, skip_specials_tokens=False)
+            for sample in generated_ids]
+
+    untrunced_bodies = [x.replace("<|endoftext|>", "") for x in untrunced_bodies]
+
+    re_key = '^answer.*?\n'
+
+    bodies = [completion[:re.search(re_key, completion).span()[1]]
+        if re.search(re_key, completion) else completion
+        for completion in untrunced_bodies]
+
+    return bodies
+
 
 """
 solved is a set of indices
@@ -123,15 +138,7 @@ def update_solved(model,
                 (batch_length, cfg["inference_num_samples"], -1))
 
         for text, idx, label, outs in zip(batch["text"], batch["idx"], batch["answer"], outputs): 
-            generated_ids = [ids[max_text_length:] for ids in outs]
-            untrunced_bodies = [tokenizer.decode(sample, skip_specials_tokens=False)
-                    for sample in generated_ids]
-        
-            re_key = '(^answer.*?\n|<\|endoftext\|>)'
-
-            bodies = [completion[:re.search(re_key, completion).span()[1]]
-                if re.search(re_key, completion) else completion
-                for completion in untrunced_bodies]
+            bodies = tokens_to_programs(outs, max_text_length, tokenizer)
 
             answers = [semisafe_evaluate(program, 'answer', 1) for program in bodies]
 

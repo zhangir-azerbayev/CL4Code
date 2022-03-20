@@ -1,4 +1,4 @@
-experiment_name: 04_withfaillog
+experiment_name: 05_fixeddecoding
 param_count: 125M
 devices: "0"
 epochs: 5
