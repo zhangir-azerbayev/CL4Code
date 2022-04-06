@@ -5,6 +5,7 @@ import json
 import math
 import random
 import re
+import glob
 
 from tqdm import tqdm
 
@@ -14,7 +15,7 @@ from torch.optim.lr_scheduler import LambdaLR
 from torch.utils.tensorboard import SummaryWriter 
 from torch.utils.data import DataLoader, SequentialSampler, BatchSampler
 
-from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer 
 from transformers import TrainingArguments, Trainer 
 from transformers import AdamW
 from transformers.integrations import TensorBoardCallback
@@ -106,7 +107,8 @@ def update_solved(model,
     print("#############Updating S_k#################")
     max_text_length = 200
     max_new_tokens = 150
-    device = "cuda:" + cfg["devices"]
+    device = "cuda" # "cuda:" + cfg["devices"]
+    print("device ordinal: ", device)
 
     fail_log = []
 
@@ -178,13 +180,24 @@ def main():
     inference_num_samples = cfg['inference_num_samples']
     train_batch_size = cfg['train_batch_size']
     num_iters = cfg['num_iters']
+    from_checkpoint = cfg['from_checkpoint']
     weight_decay = cfg['weight_decay']
+    num_seeds = cfg['num_seeds']
 
     results_dir = f"results_train/{experiment_name}"
-    os.mkdir(results_dir)
+    if from_checkpoint == 0: 
+        os.mkdir(results_dir)
 
+    print("loading model...")
     model_name = f"EleutherAI/gpt-neo-{param_count}"
-    model = GPTNeoForCausalLM.from_pretrained(model_name).to(device)
+    if from_checkpoint > 0: 
+        load_idx = from_checkpoint - 1
+        reg = f"results_train/{experiment_name}/MLElogs/{load_idx}MLE/checkpoint-*"
+        for name in glob.glob(reg): 
+            model = GPTNeoForCausalLM.from_pretrained(name).to(device)
+            print("loaded model path ", name)
+    else: 
+        model = GPTNeoForCausalLM.from_pretrained(model_name).to(device)
 
     tokenizer = GPT2Tokenizer.from_pretrained(model_name)
     tokenizer.pad_token = tokenizer.eos_token
@@ -196,15 +209,23 @@ def main():
     all_data_list = all_data_list[:max_instances]
 
     # Seed with 100 labelled examples 
-    num_seeds = 1000
-    solved = set(random.sample(range(max_instances), num_seeds))
+    if from_checkpoint > 0: 
+        with open(f"results_train/{experiment_name}/{from_checkpoint-1}_S.json") as f: 
+            slog = json.load(f)
 
-    solutions = [None for _ in range(max_instances)]
-    for i in solved: 
-        solutions[i] = all_data_list[i].code 
+        solved = set([x["idx"] for x in slog["solutions"]])
+        solutions = [None for _ in range(max_instances)]
+        for x in slog["solutions"]: 
+            solutions[x["idx"]] = x["solution"]
+    else: 
+        solved = set(random.sample(range(max_instances), num_seeds))
+
+        solutions = [None for _ in range(max_instances)]
+        for i in solved: 
+            solutions[i] = all_data_list[i].code 
 
 
-    for i in range(num_iters): 
+    for i in range(from_checkpoint, num_iters): 
         labelled_examples = [change_code(all_data_list[i], solutions[i]) for i in solved]
 
         model = train_model(model, tokenizer, labelled_examples, f"{i}MLE", cfg)

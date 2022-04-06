@@ -88,10 +88,11 @@ def check_generation():
 def main(): 
     tokenizer = GPT2Tokenizer.from_pretrained(f"EleutherAI/gpt-neo-125M")
     tokenizer.pad_token = tokenizer.eos_token
+    "loading model"
 
-    model = GPTNeoForCausalLM.from_pretrained(f"EleutherAI/gpt-neo-125M")
+    model = GPTNeoForCausalLM.from_pretrained(f"EleutherAI/gpt-neo-125M").to("cuda:1")
 
-    check_postprocessor(model, tokenizer)
+    #check_postprocessor(model, tokenizer)
 
 if __name__=="__main__": 
     main()
