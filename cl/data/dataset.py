@@ -1,5 +1,6 @@
 import torch 
 import json 
+import jsonlines
 from pathlib import Path 
 
 class MathQAInstance(): 
@@ -19,7 +20,9 @@ class MathQAInstance():
 
     def set_code(self, code): 
         self.code = code 
-
+    
+    def __str__(self): 
+        return f"{self.text}\n{self.code}\n{self.answer}"
 
 def read_mathqapython(path): 
     path = Path(path)
@@ -29,6 +32,30 @@ def read_mathqapython(path):
     instance_list = [MathQAInstance(**dct) for dct in mathqapython_list]
 
     return instance_list
+
+def read_gsm8k(path): 
+    path = Path(path)
+
+    with jsonlines.open(path) as fle: 
+        data = [line for line in fle.iter()]
+
+    
+    for i in range(len(data)): 
+        solution = data[i]["answer"]
+        key = "####"
+        idx = solution.find(key) + len(key) + 1
+
+        data[i]["text"] = data[i]["question"]
+        data[i]["code"] = ""
+        data[i]["dsl_code"] = ""
+        data[i]["reasoning"] = solution
+        data[i]["answer"] = int(solution[idx:].replace(',',''))
+        data[i]["task_id"] = i
+
+    instance_list = [MathQAInstance(**dct) for dct in data]
+
+    return instance_list
+
 
 
 class MathQAPython(torch.utils.data.Dataset): 
