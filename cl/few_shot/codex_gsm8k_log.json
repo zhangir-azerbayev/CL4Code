@@ -1,0 +1,1 @@
+[{"task_id": 2933, "text": "# There are 235 books in a library. On Tuesday, 227 books are taken out. On Thursday, 56 books are brought back and 35 books are taken out again on Friday. How many books are there now?", "answer": 29, "gold_solution": "\nn0 = 235.0\nn1 = 227.0\nn2 = 56.0\nn3 = 35.0\nt0 = n0 - n1\nt1 = t0 + n2\nt2 = t1 - n3\nanswer = t2\n", "pass@k": 1}]

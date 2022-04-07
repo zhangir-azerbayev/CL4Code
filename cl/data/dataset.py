@@ -22,7 +22,7 @@ class MathQAInstance():
         self.code = code 
     
     def __str__(self): 
-        return f"{self.text}\n{self.code}\n{self.answer}"
+        return f"{self.text}\n{self.code}\n{self.answer}\n{self.reasoning}"
 
 def read_mathqapython(path): 
     path = Path(path)
@@ -45,12 +45,13 @@ def read_gsm8k(path):
         key = "####"
         idx = solution.find(key) + len(key) + 1
 
-        data[i]["text"] = data[i]["question"]
+        data[i]["text"] = "# " + data[i]["question"]
         data[i]["code"] = ""
         data[i]["dsl_code"] = ""
         data[i]["reasoning"] = solution
         data[i]["answer"] = int(solution[idx:].replace(',',''))
         data[i]["task_id"] = i
+        data[i].pop("question")
 
     instance_list = [MathQAInstance(**dct) for dct in data]
 
