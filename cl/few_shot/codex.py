@@ -1,9 +1,15 @@
 import openai
 import os
 from typing import List
+from ratelimit import limits, sleep_and_retry
 
+@sleep_and_retry
+@limits(calls=20, period=60)
+def check_limit(): 
+    return 
 
 def generate(input: str, engine: str, max_tokens: int, temp=0.2) -> str:
+    check_limit()
     completion = openai.Completion.create(engine=engine, prompt=input, max_tokens=max_tokens, temperature=temp)
     return completion.choices[0].text
 
