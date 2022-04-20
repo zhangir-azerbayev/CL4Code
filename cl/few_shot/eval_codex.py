@@ -20,7 +20,6 @@ def call_api(engine, prompt, max_tokens, n, temperature):
 random.seed(20)
 k = 20
 temp = 0.2
-num_examples = 300
 
 prompt = open("prompt.txt", "r").read()
 
@@ -28,7 +27,7 @@ train_data = read_gsm8k("../data/gsm8k/gsm8k_train.jsonl")
 random.shuffle(train_data)
 log = []
 
-for instance in tqdm(train_data[:num_examples]): 
+for instance in tqdm(train_data): 
     label = instance.answer
     input_seq = prompt + instance.text 
 
@@ -72,7 +71,7 @@ for instance in tqdm(train_data[:num_examples]):
                 "passed_lst": passed_lst})
 
 
-num_passed = sum([x["pass@k"] for x in log])
+num_passed = sum([x["passk"] for x in log])
 pass_k = num_passed/num_examples
 
 pass_1 = sum([x["pass1"] for x in log])/num_examples
@@ -82,7 +81,7 @@ to_dump = {"passk": pass_k,
            "pass1": pass_1, 
            "log": log}
                 
-with open("codex_gsm8k_log_1.json", "w") as fle: 
+with open("codex_firststage_gsm8k", "w") as fle: 
     json.dump(to_dump, fle)
 
     
