@@ -96,21 +96,15 @@ with open(f"./results_train/{experiment_name}/config.yml", "w") as f:
     yaml.dump(cfg, f)
 
 
-# Knowledge distillation code here
-
 teacher = GPTNeoForCausalLM.from_pretrained(f"EleutherAI/gpt-neo-{teacher_param_count}").eval()
-
-
-# def distillation_loss(logits, labels, teacher_logits):
 
 class DistilTrainer(Trainer):
     """Subclass of Trainer that implements a custom knowledge distillation loss."""
     def __init__(self, temp=1.0, teacher=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # cross-entropy loss between student and teacher logits. see distilBERT paper for details
+        # cross-entropy loss between student and teacher logits. see distilBERT paper/code for details
         self.ce_loss = torch.nn.KLDivLoss(reduction='batchmean')
-        # self.clm_loss = torch.nn.CrossEntropyLoss()
         self.temperature = temp
 
 
@@ -118,25 +112,13 @@ class DistilTrainer(Trainer):
         self.teacher.to("cuda:0") # this is a workaround to make sure the teacher is on the right device--ideally wouldn't do it this way
 
     def compute_loss(self, model, inputs, return_outputs=False):
-        """ Computes"""
-        # print(inputs) # {"input_ids", "attention_mask", "labels"}
+        """ Computes distillation loss for a batch of data. """
         student_logits = model(**inputs)
         loss_CLM = student_logits.loss
         s_logits = student_logits.logits
 
-
-        # compute CLM loss -- unnecessary, since inbuilt loss is the same ^ see student_logits.loss
-        # shift_labels = inputs["labels"][..., 1:].reshape(-1)
-        # shift_logits = student_logits.logits[..., :-1, :].reshape(-1)
-
-        # loss_CLM = self.clm_loss(shift_logits.view(-1, student_logits.logits.size(-1)), shift_labels.view(-1))
-
-        # print(loss_CLM)
-        # print(student_logits.logits)
-        # print(student_logits.logits.view(-1, student_logits.logits.size(-1)).shape)
-
         with torch.no_grad():
-            teacher_logits = teacher(**inputs) # note: variable "teacher" is defined above in body of script
+            teacher_logits = self.teacher(**inputs) # note: variable "teacher" is defined above in body of script
             t_logits = teacher_logits.logits
 
         # from DistilBERT code. https://github.com/huggingface/transformers/blob/main/examples/research_projects/distillation/distiller.py
@@ -152,13 +134,13 @@ class DistilTrainer(Trainer):
         loss_CE = self.ce_loss(
             F.log_softmax(s_logits_slct / self.temperature, dim=-1),
             F.softmax(t_logits_slct / self.temperature, dim=-1)
-        ) * self.temperature ** 2 # unsure why the T^2 is necessary--couldn't find it in the paper
+        ) * self.temperature ** 2 # unsure why the T^2 is necessary--couldn't find it in the paper, but it's in the distilBERT code
         
-
+        # potential TODO: add cosine embedding loss between student and teacher hidden states
         
-        print(loss_CE, loss_CLM)
+        # print(loss_CE, loss_CLM)
         loss = loss_CE + loss_CLM
-        print(loss)
+        # print(loss)
         return (loss, student_logits) if return_outputs else loss
 
 
