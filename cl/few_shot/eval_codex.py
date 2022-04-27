@@ -9,7 +9,7 @@ import openai
 from ratelimit import limits, sleep_and_retry
 
 @sleep_and_retry
-@limits(calls=1, period=60)
+@limits(calls=2, period=60)
 def call_api(engine, prompt, max_tokens, n, temperature): 
     return openai.Completion.create(engine=engine, 
             prompt=prompt, max_tokens=max_tokens, n=n, 
@@ -18,7 +18,7 @@ def call_api(engine, prompt, max_tokens, n, temperature):
 
 
 random.seed(20)
-k = 20
+k = 10
 temp = 0.2
 
 prompt = open("prompt.txt", "r").read()
@@ -27,7 +27,7 @@ train_data = read_gsm8k("../data/gsm8k/gsm8k_train.jsonl")
 random.shuffle(train_data)
 log = []
 
-for instance in tqdm(train_data): 
+for instance in tqdm(train_data[:1000]): 
     label = instance.answer
     input_seq = prompt + instance.text 
 
@@ -49,7 +49,7 @@ for instance in tqdm(train_data):
     
     answers = [semisafe_evaluate(program, 'answer', 1) for program in bodies]
 
-    passed_lst = [(abs((answer - label)/label) < 0.01) 
+    passed_lst = [(abs((answer - label)/max(label, 1e-5)) < 0.01) 
                     if isinstance(answer, float) else False 
                     for answer in answers]
     
@@ -70,6 +70,7 @@ for instance in tqdm(train_data):
                 "pass1": pass_1, 
                 "passed_lst": passed_lst})
 
+num_examples = len(log)
 
 num_passed = sum([x["passk"] for x in log])
 pass_k = num_passed/num_examples
@@ -81,7 +82,7 @@ to_dump = {"passk": pass_k,
            "pass1": pass_1, 
            "log": log}
                 
-with open("codex_firststage_gsm8k", "w") as fle: 
+with open("codex_firststage_gsm8k_max1000", "w") as fle: 
     json.dump(to_dump, fle)
 
     
