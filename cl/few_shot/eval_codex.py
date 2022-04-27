@@ -1,74 +1,93 @@
-from codex import openai_call
 from cl.data.dataset import read_gsm8k
 from cl.execution import semisafe_evaluate
 from tqdm import tqdm
 import re
 import random
 import json
+import sys
 import openai
 from ratelimit import limits, sleep_and_retry
+from itertools import zip_longest
+import time
+
+def batch_loader(seq, size):
+    return [seq[pos:pos + size] for pos in range(0, len(seq), size)]
 
 @sleep_and_retry
-@limits(calls=2, period=60)
+@limits(calls=1, period=60)
 def call_api(engine, prompt, max_tokens, n, temperature): 
     return openai.Completion.create(engine=engine, 
             prompt=prompt, max_tokens=max_tokens, n=n, 
-            temperature=temperature)
-
-
+            temperature=temperature, 
+            )
 
 random.seed(20)
-k = 10
-temp = 0.2
+num_prompts = 10
+n = 20
+temp = 0.4
+
+filename = "codex_gsm8k_full_pass20"
 
 prompt = open("prompt.txt", "r").read()
 
 train_data = read_gsm8k("../data/gsm8k/gsm8k_train.jsonl")
-random.shuffle(train_data)
-log = []
 
-for instance in tqdm(train_data[:1000]): 
-    label = instance.answer
-    input_seq = prompt + instance.text 
+dataloader = batch_loader(train_data, num_prompts)
 
+for batch in tqdm(dataloader): 
+    labels = [instance.answer for instance in batch]
+    prompts = [prompt + instance.text for instance in batch]
+    texts = [instance.text for instance in batch]
+    task_ids = [instance.task_id for instance in batch]
+    
 
     outputs = call_api(engine="code-davinci-002", 
-                       prompt=input_seq, 
-                       max_tokens=100, 
-                       n=k, 
-                       temperature=temp
+                       prompt=prompts, 
+                       max_tokens=150, 
+                       n=n, 
+                       temperature=temp, 
                        )
+
     outputs = [output["text"] for output in outputs["choices"]]
 
-    re_key = '\nanswer.*?\n'
+    for out, label, task_id, text in zip(batch_loader(outputs, n), 
+            labels, task_ids, texts):
+        re_key = '\nanswer.*?\n'
 
-    bodies = [completion[:re.search(re_key, completion).span()[1]]
-        if re.search(re_key, completion) else completion
-        for completion in outputs]
+        bodies = [completion[:re.search(re_key, completion).span()[1]]
+            if re.search(re_key, completion) else completion
+            for completion in out]
 
-    
-    answers = [semisafe_evaluate(program, 'answer', 1) for program in bodies]
+        
+        answers = [semisafe_evaluate(program, 'answer', 1) for program in bodies]
 
-    passed_lst = [(abs((answer - label)/max(label, 1e-5)) < 0.01) 
-                    if isinstance(answer, float) else False 
-                    for answer in answers]
-    
-    if True in passed_lst: 
-        gold_code = bodies[passed_lst.index(True)]
-        passed = 1
-    else: 
-        gold_code = False 
-        passed = 0 
+        passed_lst = [(abs((answer - label)/max(label, 1e-5)) < 0.01) 
+                        if isinstance(answer, float) else False 
+                        for answer in answers]
+        
+        if True in passed_lst: 
+            gold_code = bodies[passed_lst.index(True)]
+            passed = 1
+        else: 
+            gold_code = False 
+            passed = 0 
 
-    pass_1 = sum(passed_lst)/len(passed_lst)
 
-    log.append({"task_id": instance.task_id, 
-                "text": instance.text, 
-                "answer": instance.answer, 
-                "gold_solution": gold_code,
-                "passk": passed, 
-                "pass1": pass_1, 
-                "passed_lst": passed_lst})
+        pass_1 = sum(passed_lst)/len(passed_lst)
+        
+        with open(filename+".jsonl", "a+") as f: 
+            record = json.dumps({"task_id": task_id, 
+                        "text": text, 
+                        "answer": label, 
+                        "gold_solution": gold_code,
+                        "passk": passed, 
+                        "pass1": pass_1, 
+                        "passed_lst": passed_lst})
+            f.write(record+'\n')
+
+with open(filename+'.jsonl') as f:
+    log = [json.loads(line) for line in f]
+
 
 num_examples = len(log)
 
@@ -82,12 +101,5 @@ to_dump = {"passk": pass_k,
            "pass1": pass_1, 
            "log": log}
                 
-with open("codex_firststage_gsm8k_max1000", "w") as fle: 
+with open(filename+".json", "w") as fle: 
     json.dump(to_dump, fle)
-
-    
-
-
-
-
-
