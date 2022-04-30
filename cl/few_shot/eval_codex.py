@@ -22,7 +22,7 @@ def call_api(engine, prompt, max_tokens, n, temperature):
             )
 
 random.seed(20)
-num_prompts = 10
+num_prompts = 5
 n = 20
 temp = 0.4
 
@@ -34,7 +34,7 @@ train_data = read_gsm8k("../data/gsm8k/gsm8k_train.jsonl")
 
 dataloader = batch_loader(train_data, num_prompts)
 
-for batch in tqdm(dataloader): 
+for batch in tqdm(dataloader[47+350+131:]): 
     labels = [instance.answer for instance in batch]
     prompts = [prompt + instance.text for instance in batch]
     texts = [instance.text for instance in batch]
